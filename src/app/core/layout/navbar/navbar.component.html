@@ -29,7 +29,7 @@
   <p-accordion styleClass="mt-3">
 
     <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo"
-      icon="fas fa-clipboard-check" (click)="menu = false" [disabled]="!auth.temPermissao('R_ATEND')" label="Empresas"
+      icon="fas fa-clipboard-check" (click)="menu = false" [disabled]="!auth.temPermissao('R_EMP')" label="Empresas"
       routerLink="/empresas"></button>
 
     <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo" icon="fas fa-users-cog"

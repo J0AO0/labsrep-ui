@@ -11,17 +11,17 @@ const routes: Routes = [
     import('./page/empresas/empresas.module').then(m => m.EmpresaModule)
   },
  
-  /**{
+ {
     path: 'usuarios', loadChildren: () =>
-    import('./pages/usuarios/usuarios.module').then(m =>  m.UsuariosModule)
+    import('./page/usuarios/usuarios.module').then(m =>  m.UsuariosModule)
   },
-  { path: 'alterarsenha', component: AlterarSenhaComponent },
+ // { path: 'alterarsenha', component: AlterarSenhaComponent },
 
-  { path: 'nao-autorizado', component: NaoAutorizadoComponent },
+//  { path: 'nao-autorizado', component: NaoAutorizadoComponent },
 
-  { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
+//  { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
 
-  { path: '**', redirectTo: 'pagina-nao-encontrada' } **/
+  { path: '**', redirectTo: 'pagina-nao-encontrada' } 
 ];
 
 @NgModule({
