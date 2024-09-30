@@ -45,15 +45,25 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   razaosocial: string;
   idEmpresaativa: number;
 
+  items = [
+    {
+      label: 'sair',
+      icon: 'pi pi-sign-out',
+      command: () => {
+        this.confirmarLogout(this.sair)
+      }
+    }
+  ]
+
   constructor(
-  public auth: AuthService,
-  private errorHandler: ErrorHandlerService,
-  private router: Router,
-  private confirmation: ConfirmationService,
-  private empresaService: EmpresasService,
-  private messageService: MessageService,
-  private usuarioService: UsuariosService,
-   ) {  }
+    public auth: AuthService,
+    private errorHandler: ErrorHandlerService,
+    private router: Router,
+    private confirmation: ConfirmationService,
+    private empresaService: EmpresasService,
+    private messageService: MessageService,
+    private usuarioService: UsuariosService,
+  ) { }
 
   ngOnInit() {
     this.razaosocial = '...';
@@ -73,26 +83,26 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
   }
 
-novoAccessToken() {
-  this.auth.obterNovoAccessToken();
-}
-confirmarLogout(sair: any) {
-  this.confirmation.confirm({
-    message: `Tem certeza que deseja sair? `,
-    accept: () => {
-      this.logout(sair);
-    }
-  });
-}
-logout(sair: any) {
- this.auth.logout()
-   .then(() => {
-    this.router.navigate(['/login']);
-   })
-  .catch(erro => this.errorHandler.handle(erro));
- }
+  novoAccessToken() {
+    this.auth.obterNovoAccessToken();
+  }
+  confirmarLogout(sair: any) {
+    this.confirmation.confirm({
+      message: `Tem certeza que deseja sair? `,
+      accept: () => {
+        this.logout(sair);
+      }
+    });
+  }
+  logout(sair: any) {
+    this.auth.logout()
+      .then(() => {
+        this.router.navigate(['/login']);
+      })
+      .catch(erro => this.errorHandler.handle(erro));
+  }
 
- showEmpresas() {
+  showEmpresas() {
     this.menu = false;
     this.displayEmpresas = true;
     // colocar timeOut
