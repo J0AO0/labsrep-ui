@@ -34,7 +34,7 @@ export class UsuariosService {
     return firstValueFrom(this.http.get(`${this.usuariosUrl}`)).then(
       (response) => {
         const obj = response as any[];
-        this.converterStringDate(obj);
+        this.convertStringDate(obj);
         return obj;
       }
     );
@@ -104,12 +104,18 @@ export class UsuariosService {
       this.http.put(`${this.usuariosUrl}/tenant/${id}`, id)
     ).then((response) => response);
   }
-  
-  converterStringDate(obj: any[]) {
+
+  convertStringDate(obj: any[]) {
     obj.forEach((element) => {
-      element.datagravacao = moment(element.datagravacao, 'YYYY/MM/DD H:mm')
-        .tz('America/Sao_Paulo')
-        .toDate();
+      // Certifique-se de que o formato da string de data está correto
+      const dateFormat = 'YYYY/MM/DD H:mm';
+
+      // Verifique se a data não é nula ou indefinida antes de tentar convertê-la
+      if (element.datagravacao) {
+        element.datagravacao = moment(element.datagravacao, dateFormat)
+          .tz('America/Sao_Paulo')
+          .toDate();
+      }
     });
   }
 }
