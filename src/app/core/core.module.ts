@@ -16,6 +16,7 @@ import { NaoAutorizadoComponent } from "./layout/nao-autorizado/nao-autorizado.c
 import { PaginaNaoEncontradaComponent } from "./layout/pagina-nao-encontrada/pagina-nao-encontrada.component";
 import { AuthService } from "../page/seguranca/auth.service";
 import { EmpresasService } from "../page/empresas/empresas.service";
+import { CategoriasService } from "../page/categorias/categorias.service";
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { EmpresasService } from "../page/empresas/empresas.service";
     ValidationService,
     UsuariosService,
     EmpresasService,
+    CategoriasService
 
   ],
   exports: [

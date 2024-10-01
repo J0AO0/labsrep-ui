@@ -1,0 +1,42 @@
+[33mcommit 4c7afca36008b4f88b4dfaffd9105f815bd8cbcb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: João Carlos <102131443+J0AO0@users.noreply.github.com>
+Date:   Mon Sep 30 18:18:32 2024 -0300
+
+    cidade e estado
+
+[33mcommit bf4e868ac97c11de6d1b6eb49d9e244162c4dfe6[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: dffdcfe 703e709
+Author: Romario Ribeiro <romaryjane@hotmail.com>
+Date:   Mon Sep 30 17:32:24 2024 -0300
+
+    atualizado
+
+[33mcommit dffdcfef8066e027a6708cf53e4a6b9ae983181b[m
+Author: Romario Ribeiro <romaryjane@hotmail.com>
+Date:   Mon Sep 30 17:28:38 2024 -0300
+
+    permissões do cadastro de usuario
+
+[33mcommit 703e7092787d8c542bc436d9da4507b55b2449f9[m
+Author: joao.carlos <joaocarlosperes08@gmail.com>
+Date:   Mon Sep 30 16:25:18 2024 -0300
+
+    not found
+
+[33mcommit d1f099336e9f88f049213a09ae8d11a8c8625a50[m
+Author: Romario Ribeiro <romaryjane@hotmail.com>
+Date:   Mon Sep 30 16:06:45 2024 -0300
+
+    layout de sair
+
+[33mcommit 0127032f3b245ac1fd222a506e3bf0007d3ee932[m
+Author: joao.carlos <joaocarlosperes08@gmail.com>
+Date:   Mon Sep 30 11:30:01 2024 -0300
+
+    tela de cadastro usu (erro)
+
+[33mcommit d2c25cdaf536234ad76d9b05e1b42955b5c271c5[m
+Author: joao.carlos <joaocarlosperes08@gmail.com>
+Date:   Mon Sep 30 09:53:46 2024 -0300
+
+    first commit
