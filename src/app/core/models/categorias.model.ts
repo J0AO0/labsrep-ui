@@ -1,6 +1,5 @@
 export class Categorias {
-    _id?: string;
-    codigo?: number;
-    descricao?: string;
+    _id?: number;
+    nome?: string;
     status?: boolean;
 }

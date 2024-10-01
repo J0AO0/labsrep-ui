@@ -29,7 +29,7 @@ export class CategoriasService {
     );
   }
 
-   ListarDrop(): Promise<any> {
+  ListarDrop(): Promise<any> {
     return firstValueFrom(
       this.http.get(`${this.categoriaURL}/all`),
     ).then((response: any) => {

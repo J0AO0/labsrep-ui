@@ -30,7 +30,11 @@
       styleClass="p-mr-4"
       pTooltip="Carrinho"
       tooltipPosition="left"
-      [style]="{ 'background-color': '#00a185', color: '#ffffff', 'margin-right': '12px' }"
+      [style]="{
+        'background-color': '#00a185',
+        color: '#ffffff',
+        'margin-right': '12px'
+      }"
       shape="circle"
     >
     </p-avatar>
@@ -101,7 +105,20 @@
       label="Usuários"
       routerLink="/usuarios"
     ></button>
+    <!-- Menu de Categoria Inicio -->
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded btn-menu"
+      routerLinkActive="ativo"
+      icon="fas fa-users-cog"
+      (click)="menu = false"
+      ngForm="!auth.temPermissao('R_CAT')"
+      label="Categoria"
+      routerLink="/categorias"
+    ></button>
   </p-accordion>
+  <!-- Fim  -->
 
   <!--  <div class="logo">
     <a class="cursor-pointer" href="" target="_blank">

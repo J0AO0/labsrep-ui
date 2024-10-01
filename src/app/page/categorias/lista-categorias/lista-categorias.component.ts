@@ -107,7 +107,7 @@ export class ListaCategoriasComponent implements OnInit, AfterViewInit {
     this.cols = [
       { field: 'codigo', header: 'Código', width: '130px', key: 1, type: 'numeric', qty: '' },
       { field: 'descricao', header: 'Descrição', key: 2, width: '250px', type: 'text', qty: '' },
-   
+
       {
         field: 'usuarioalteracao',
         header: 'Usuário Alteração',
@@ -146,7 +146,7 @@ export class ListaCategoriasComponent implements OnInit, AfterViewInit {
         datacriacaode: '',
         datacriacaoate: ''
       },
-     
+
       {
         field: 'status',
         header: 'Status',

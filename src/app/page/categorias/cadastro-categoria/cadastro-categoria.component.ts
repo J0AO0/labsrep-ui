@@ -53,7 +53,7 @@ export class CadastroCategoriaComponent {
 
   get editando() {
     return Boolean(this.newcategoria._id);
-   
+
   }
 
 
@@ -61,24 +61,24 @@ export class CadastroCategoriaComponent {
     if (form.invalid) {
       return; //Não prosseguir se o formulário não for válido
     }
-  
+
     if (this.editando) {
       this.atualizarCategorias(form);
     } else {
       this.adicionarCategoria(form);
     }
   }
-  
+
   adicionarCategoria(form: NgForm) {
     this.salvando = true;
-    this.mostrarToast= true;
+    this.mostrarToast = true;
     this.categoriaService
       .adicionarCategoria(this.newcategoria)
       .then((obj) => {
         this.messageService.add({
           severity: 'success',
           summary: 'Categoria',
-          detail: `${obj.descricao}, adicionado com sucesso!`,
+          detail: `${obj.nome}, adicionado com sucesso!`,
         });
         this.salvando = false;
         this.router.navigate(['/categorias']);
@@ -98,7 +98,7 @@ export class CadastroCategoriaComponent {
         this.messageService.add({
           severity: 'info',
           summary: 'Categoria',
-          detail: `${obj.descricao}, alterado com sucesso!`,
+          detail: `${obj.nome}, alterado com sucesso!`,
         });
         this.atualizarTituloEdicao();
         this.salvando = false;
@@ -124,12 +124,12 @@ export class CadastroCategoriaComponent {
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de Categoria: ${this.newcategoria.descricao}`);
+    this.title.setTitle(`Edição de Categoria: ${this.newcategoria.nome}`);
   }
 
   confirmarExclusao() {
     this.confirmation.confirm({
-      message: `Tem certeza que deseja excluir: <b>${this.newcategoria.descricao}</b> ?`,
+      message: `Tem certeza que deseja excluir: <b>${this.newcategoria.nome}</b> ?`,
       accept: () => {
         this.excluir(this.newcategoria._id);
       },
@@ -161,14 +161,14 @@ export class CadastroCategoriaComponent {
         this.messageService.add({
           severity: 'warn',
           summary: 'Categoria',
-          detail: `${this.newcategoria.descricao}, excluído com sucesso!`,
+          detail: `${this.newcategoria.nome}, excluído com sucesso!`,
         });
         this.router.navigate(['/categorias']);
       })
       .catch((erro) => {
-       this.errorHandler.handle(erro);
+        this.errorHandler.handle(erro);
       });
   }
 
-  
+
 }
