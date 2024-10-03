@@ -1,29 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../seguranca/auth.guard';
-import { CadastroCategoriaComponent } from './cadastro-categoria/cadastro-categoria.component';
-import { ListaCategoriasComponent } from './lista-categorias/lista-categorias.component';
+import { CategoriasListaComponent } from './lista-categorias/categorias-lista.component';
+import { CategoriaCadastroComponent } from './cadastro-categoria/categoria-cadastro.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: ListaCategoriasComponent,
-     //canActivate: [AuthGuard],
+    component: CategoriasListaComponent,
+    //canActivate: [AuthGuard],
     data: {roles: ['categorias']}
   },
   {
     path: 'novo',
-    component: CadastroCategoriaComponent,
-    // canActivate: [AuthGuard],
+    component: CategoriaCadastroComponent,
+    //canActivate: [AuthGuard],
     data: {roles: ['categorias']}
   },
   {
     path: ':id',
-    component: CadastroCategoriaComponent,
+    component: CategoriaCadastroComponent,
     //canActivate: [AuthGuard],
     data: {roles: ['categorias']}
-  },
+  }
 
 
 ];

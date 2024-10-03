@@ -1,0 +1,48 @@
+<main>
+  <p-card styleClass="card-adjust">
+      <div class="mb-3">
+          <span class="title colorTitle">Cadastro de Categoria</span>
+      </div>
+      <div class="flex justify-content-start mb-2">
+          <button pButton type="button" class="p-button-primary" icon="pi pi-arrow-left" pTooltip="Voltar" routerLink="/categorias" ></button>
+      </div>
+      <form #formCategoria="ngForm" (ngSubmit)="salvar(formCategoria)">
+          <div class="grid flex flex-wrap justify-content-center ">
+              <div class="col-12 md:col-6 lg:col-3">
+                  <span>Nome</span>
+                  <input type="text" name="nome" #nome="ngModel" [(ngModel)]="categoria.nome" pInputText class="w-full"  [required]="true" minlength="2" maxlength="60" 
+                  [pKeyFilter]="regex.stringNumber" upperCase>
+               
+                  <app-message [control]="nome" error="required" 
+                  text="Nome é obrigatório..."></app-message>
+                  <app-message [control]="nome" error="minlength" 
+                  text="Mínimo de 2 caracteres..."></app-message>
+                  <app-message [control]="nome" error="maxlength" 
+                  text="Máximo de 60 caracteres..."></app-message>
+              </div>
+          </div>
+          <div class="flex justify-content-center">
+              <div class="flex align-items-center justify-content-center">
+                  <h5>Status</h5>
+              </div>
+             </div>
+          <div class="flex justify-content-center">
+              <div class="flex align-items-center justify-content-center">
+                  <p-inputSwitch [(ngModel)]="categoria.status" name="status" 
+                  [ngModelOptions]="{standalone: true}"></p-inputSwitch>
+              </div>
+          </div>
+          <div class="flex flex-wrap justify-content-center mt-4">
+              <div class="col-12 md:col-6 lg:col-3">
+                  <button pButton type="submit" class="p-button-primary w-full" icon="pi pi-save" [disabled]="formCategoria.invalid || salvando " pTooltip="Salvar" label="Salvar"></button>
+              </div>
+          </div>
+          <div *ngIf="salvando" class="grid flex justify-content-center mt-4">
+              <p-progressSpinner [style]="{width: '50px', heigth: '50px'}" styleClass="custom-spinner" strokeWidth="8" animation=".5s"></p-progressSpinner>
+              <div class="grid col-12 justify-content-center">
+                  <h4>Salvando aguarde...</h4>
+              </div>
+          </div>
+      </form>
+  </p-card>
+</main>
