@@ -19,8 +19,10 @@ export class CategoriasService {
   listarCategorias(): Promise<any> {
     return firstValueFrom(this.http.get(`${this.categoriaUrl}`)).then(
       (response) => {
+
         const obj = response as any[];
         this.converterStringDate(obj);
+        console.log(obj)
         return obj;
       }
     );
@@ -28,7 +30,7 @@ export class CategoriasService {
 
   listarComFiltro(filtro: FiltrosCategorias): Promise<any> {
     const param: { [k: string]: any } = this.validarParametros(filtro);
-    return firstValueFrom(this.http.get(`${this.categoriaUrl}/filtro`, { params: param })).then(
+    return firstValueFrom(this.http.get(`${this.categoriaUrl}`, { params: param })).then(
       (response: any) => {
         this.converterStringsParaDatasFiltro(response.content);
         return response;
