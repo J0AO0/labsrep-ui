@@ -50,6 +50,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
 import { TreeTableModule } from 'primeng/treetable';
 
+import { DataViewModule } from 'primeng/dataview';
+
+
 
 // import {HotkeyModule} from 'angular2-hotkeys';
 
@@ -108,7 +111,8 @@ import { TreeTableModule } from 'primeng/treetable';
     MessageModule,
     SplitButtonModule,
     CarouselModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    DataViewModule
   ]
 })
 export class PrimeNGModule { }
