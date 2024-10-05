@@ -81,8 +81,8 @@ export class CategoriasService {
       obj.status = filtro.status;
     }
 
-    return obj;
-  }
+    return obj;
+  }
 
   private converterStringsParaDatas(obj: any[]) {
     obj.forEach((element) => {

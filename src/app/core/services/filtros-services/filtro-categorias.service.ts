@@ -35,6 +35,6 @@ export class FiltroCategoriasService {
             filtro.usuarioalteracao = value.qty;
         }
 
-        return filtro;
+        return filtro;
     }
 }

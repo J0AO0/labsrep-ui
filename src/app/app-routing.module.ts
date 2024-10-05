@@ -20,6 +20,10 @@ const routes: Routes = [
     path: 'usuarios', loadChildren: () =>
     import('./page/usuarios/usuarios.module').then(m =>  m.UsuariosModule)
   },
+  {
+    path: 'produtos', loadChildren: () =>
+    import('./page/produtos/produto.module').then(m =>  m.ProdutoModule)
+  },
  // { path: 'alterarsenha', component: AlterarSenhaComponent },
 
   { path: 'nao-autorizado', component: NaoAutorizadoComponent },
