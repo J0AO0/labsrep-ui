@@ -35,6 +35,6 @@ export class FiltroCategoriasService {
             filtro.status = value.qty;
           }
 
-        return filtro;
+        return filtro;
     }
 }

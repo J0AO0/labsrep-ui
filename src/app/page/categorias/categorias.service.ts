@@ -68,8 +68,8 @@ export class CategoriasService {
       obj.status = filtro.status;
     }
 
-    return obj;
-  }
+    return obj;
+  }
 
   excluir(id: number): Promise<void> {
     return firstValueFrom(this.http.delete(`${this.categoriaUrl}/${id}`))
