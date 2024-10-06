@@ -10,6 +10,7 @@ import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { MessageService } from 'primeng/api';
 import { NgForm } from '@angular/forms';
 import { UploadEvent } from 'primeng/fileupload';
+import { CategoriasService } from '../../categorias/categorias.service';
 
 
 @Component({
@@ -18,6 +19,8 @@ import { UploadEvent } from 'primeng/fileupload';
   styleUrl: './produto-cadastro.component.css',
 })
 export class ProdutoCadastroComponent implements OnInit {
+  messageDrop = 'Nenhum resultado encontrado...';
+
   descricao: string = '';
   selectedFile: File | null = null;
 
@@ -26,6 +29,10 @@ export class ProdutoCadastroComponent implements OnInit {
   produto = new Produto();
   idProduto: number;
 
+  produtoId: any
+  selectedCategoria: any;
+  categorias = []
+
   constructor(private produtoService: ProdutoService,
     private route: ActivatedRoute,
     private router: Router,
@@ -33,9 +40,11 @@ export class ProdutoCadastroComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private messageService: MessageService,
     private erroHandler: ErrorHandlerService,
+    private categoriaService: CategoriasService
   ) { }
 
   ngOnInit() {
+    this.carregarCategoria()
     this.title.setTitle('Cadastro Categoria');
     this.idProduto = this.route.snapshot.params['id'];
     if (this.idProduto) {
@@ -60,7 +69,7 @@ export class ProdutoCadastroComponent implements OnInit {
 
   adicionarProduto(form: NgForm) {
     this.salvando = true;
-  
+
     // Primeiro adiciona o produto
     this.produtoService.adicionar(this.produto)
       .then((produtoAdicionado) => {
@@ -70,7 +79,7 @@ export class ProdutoCadastroComponent implements OnInit {
           const formData = new FormData();
           formData.append('arquivo', this.selectedFile); // Adiciona o arquivo ao FormData
           formData.append('descricao', this.descricao); // Adiciona a descrição ao FormData
-  
+
           this.produtoService.uploadFoto(produtoAdicionado.id, formData).subscribe(
             (response) => {
               this.messageService.add({
@@ -100,9 +109,9 @@ export class ProdutoCadastroComponent implements OnInit {
         this.erroHandler.handle(erro);
       });
   }
-  
-  
-  
+
+
+
   carregarProduto(id: number) {
     this.produtoService.buscarPorId(id)
       .then((obj) => {
@@ -121,7 +130,7 @@ export class ProdutoCadastroComponent implements OnInit {
   }
 
 
-onFileSelected(event: any) {
+  onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
 
@@ -144,20 +153,34 @@ onFileSelected(event: any) {
       formData.append('arquivo', this.selectedFile);
       formData.append('descricao', this.descricao);
 
-      const produtoId = 1; // Substituir pelo ID correto do produto
+      this.produtoId = this.produtoService.buscarPorId(this.idProduto);
 
-      this.produtoService.uploadFoto(produtoId, formData).subscribe({
+      console.log(this.produtoId)
+
+      this.produtoService.uploadFoto(this.produtoId, formData).subscribe({
         next: (response) => {
-          this.messageService.add({severity: 'success', summary: 'Sucesso', detail: 'Foto salva com sucesso!'});
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Foto salva com sucesso!' });
         },
         error: (err) => {
-          this.messageService.add({severity: 'error', summary: 'Erro', detail: 'Falha ao salvar a foto.'});
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao salvar a foto.' });
         }
       });
     } else {
-      this.messageService.add({severity: 'warn', summary: 'Atenção', detail: 'Selecione um arquivo e insira a descrição.'});
+      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Selecione um arquivo e insira a descrição.' });
     }
   }
-  
+
+  carregarCategoria() {
+    return this.categoriaService.listar()
+      .then((pac) => {
+        this.categorias = pac.map((mp) => ({ label: mp.nome, value: mp.id }));
+
+      })
+      .catch((erro) => {
+        this.erroHandler.handle(erro);
+      });
+
+  }
+
 
 }
