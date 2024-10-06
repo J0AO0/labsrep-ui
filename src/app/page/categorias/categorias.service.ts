@@ -16,6 +16,19 @@ export class CategoriasService {
     this.categoriaUrl = `${environment.apiUrl}/categorias`;
   }
 
+
+
+  listar(): Promise<any> {
+    return firstValueFrom(this.http.get(`${this.categoriaUrl}/lista`)).then(
+      (response) => {
+        const obj = response as any[];
+        this.convertStringDate(obj);
+        return obj;
+      }
+    )
+  }
+
+
   listarCategorias(): Promise<any> {
     return firstValueFrom(this.http.get(`${this.categoriaUrl}`)).then(
       (response) => {
@@ -68,8 +81,8 @@ export class CategoriasService {
       obj.status = filtro.status;
     }
 
-    return obj;
-  }
+    return obj;
+  }
 
   excluir(id: number): Promise<void> {
     return firstValueFrom(this.http.delete(`${this.categoriaUrl}/${id}`))

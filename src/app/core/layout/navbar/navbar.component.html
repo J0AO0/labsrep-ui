@@ -117,6 +117,18 @@
       label="Categoria"
       routerLink="/categorias"
     ></button>
+    <!-- Menu de Produto Inicio -->
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded btn-menu"
+      routerLinkActive="ativo"
+      icon="fas fa-users-cog"
+      (click)="menu = false"
+      ngForm="!auth.temPermissao('R_PROD')"
+      label="Produto"
+      routerLink="/produtos"
+    ></button>
   </p-accordion>
   <!-- Fim  -->
 

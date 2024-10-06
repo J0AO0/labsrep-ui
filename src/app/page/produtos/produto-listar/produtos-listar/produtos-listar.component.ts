@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { MenuItem, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { ProdutoService } from '../../produto.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ValidationService } from 'src/app/core/services/validation.service';
 
 export interface Product {
   name: string;
@@ -17,43 +23,127 @@ export interface Product {
 })
 export class ProdutosListarComponent implements OnInit {
 
-  products: Product[] = [];
+  descricao: string = '';
+  selectedFile: File | null = null;
+  idProduto: number;
+  imagem: any
+  produtoId: any
 
-  ngOnInit(): void {
-    this.products = [
+  @ViewChild('tabela') table: Table;
+  rowsPerPageTable: number[] = [10, 25, 50, 100, 200, 500];
+  produtos = [];
+  cols: any[];
+  messagePageReport = 'Mostrando {first} a {last} de {totalRecords} registros';
+  items: MenuItem[];
+  sinal = true;
+  valorTooltip = 'Inativos';
+
+  constructor(
+    private title: Title,
+    private produtoService: ProdutoService,
+    private spinner: NgxSpinnerService,
+    private validationService: ValidationService,
+    private messageService: MessageService,
+  ) { }
+
+  ngOnInit() {
+    this.title.setTitle('Lista de Produto');
+    this.items = [
       {
-        name: 'Laptop',
-        category: 'Electronics',
-        description: 'A powerful gaming laptop.',
-        price: 1500,
-        image: 'bce19632-e07f-4426-b44d-19f6bc588a55.png',
-        inventoryStatus: 'INSTOCK',
-        rating: 5
-      },
-      {
-        name: 'Smartphone',
-        category: 'Electronics',
-        description: 'A feature-packed smartphone.',
-        price: 800,
-        image: 'smartphone.png',
-        inventoryStatus: 'OUTOFSTOCK',
-        rating: 4.5
+        label: 'Ativo/Inativo',
+        icon: 'pi pi-sort-alt',
+        command: () => {
+          this.AlternarLista();
+        }
       }
-      // Adicione mais produtos conforme necessário
-    ];
+    ]
+    this.carregarProduto();
+
+    this.cols = [
+      { field: 'id', header: 'Código', width: '100px', type: 'numeric', key: 1 },
+      { field: 'name', header: 'Descrição', width: '150px', type: 'text', key: 2 },
+      { field: 'datagravacao', header: 'Data Gravação', width: '100px', data: true, format: `dd/MM/yyyy H:mm`, type: 'date', key: 3 },
+      { field: 'emailusuario', header: 'Usuário Gravação', width: '150px', type: 'text', key: 4 },
+      { field: 'statusformatado', header: 'Status', width: '150px', type: 'text', key: 5 }
+    ]
+
   }
 
-  // Função para determinar a cor da tag com base no status do inventário
-  getSeverity(product: Product): string {
-    switch (product.inventoryStatus) {
-      case 'INSTOCK':
-        return 'success';
-      case 'LOWSTOCK':
-        return 'warning';
-      case 'OUTOFSTOCK':
-        return 'danger';
-      default:
-        return '';
+
+  refresh() {
+    this.carregarProduto();
+  }
+
+  onClear() {
+    this.table.clear();
+  }
+
+  carregarProduto() {
+    this.spinner.show();
+    this.produtoService.listar()
+      .then((obj) => {
+        this.produtos = obj;
+        this.produtos = this.validationService.formataAtivoeInativo(this.produtos);
+        this.spinner.hide();
+      })
+      .catch((erro) => {
+        this.spinner.hide();
+        // this.erroHandler.handle(erro);
+      })
+  }
+
+  AlternarLista() {
+    this.spinner.show();
+    const valor = this.sinal ? '/inativos' : '/';
+    if (this.sinal === true) {
+      this.valorTooltip = 'Ativos';
+      this.sinal = false;
+    } else {
+      this.valorTooltip = 'Inativos';
+      this.sinal = true;
+    }
+    this.produtoService.AlternarLista(valor)
+      .then((obj) => {
+        this.produtos = obj;
+        // this.produtos = this.validationService.formataAtivoeInativo(this.convenios);
+        this.spinner.hide();
+      })
+      .catch((erro) => {
+        this.spinner.hide();
+        // this.erroHandler.handle(erro);
+      })
+  }
+
+  onUpload(event: any) {
+    this.selectedFile = event.files[0]; // Captura o arquivo selecionado
+  }
+
+  onSubmit() {
+    if (this.selectedFile && this.descricao) {
+      const formData = new FormData();
+      formData.append('arquivo', this.selectedFile);
+      formData.append('descricao', this.descricao);
+
+      if (!this.produtoId) {
+        this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Produto não selecionado.' });
+        return;
+      }
+
+      this.produtoService.uploadFoto(this.produtoId, formData).subscribe({
+        next: (response) => {
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Foto salva com sucesso!' });
+        },
+        error: (err) => {
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao salvar a foto.' });
+        }
+      });
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Selecione um arquivo e insira a descrição.' });
     }
   }
+
+  onImageButtonClick(produtoId: number, event: any) {
+    this.produtoId = produtoId;      // Store the selected produtoId
+  }
+
 }
