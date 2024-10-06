@@ -1,6 +1,6 @@
 export class Produto {
     id?: number;
-    nome?: string;
+    name?: string;
     datagravacao: Date;
     emailusuario: string;
     status?: boolean

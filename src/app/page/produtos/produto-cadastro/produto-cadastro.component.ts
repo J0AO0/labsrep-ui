@@ -18,7 +18,8 @@ import { UploadEvent } from 'primeng/fileupload';
   styleUrl: './produto-cadastro.component.css',
 })
 export class ProdutoCadastroComponent implements OnInit {
-  selectedFile: File;
+  descricao: string = '';
+  selectedFile: File | null = null;
 
   regex = new Regex();
   salvando: boolean = false;
@@ -59,22 +60,49 @@ export class ProdutoCadastroComponent implements OnInit {
 
   adicionarProduto(form: NgForm) {
     this.salvando = true;
+  
+    // Primeiro adiciona o produto
     this.produtoService.adicionar(this.produto)
-      .then((obj) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Categoria',
-          detail: `${obj.nome}, adicionado com sucesso!`
-        });
+      .then((produtoAdicionado) => {
+        // Verifique se o arquivo de imagem foi selecionado
+        if (this.selectedFile) {
+          // Agora chama o upload passando o ID do produto adicionado
+          const formData = new FormData();
+          formData.append('arquivo', this.selectedFile); // Adiciona o arquivo ao FormData
+          formData.append('descricao', this.descricao); // Adiciona a descrição ao FormData
+  
+          this.produtoService.uploadFoto(produtoAdicionado.id, formData).subscribe(
+            (response) => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Produto',
+                detail: 'Produto e imagem adicionados com sucesso!'
+              });
+              this.router.navigate(['/produtos']);
+            },
+            (error) => {
+              this.erroHandler.handle(error);
+            }
+          );
+        } else {
+          // Se não houver arquivo, apenas exibe uma mensagem de sucesso
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Produto',
+            detail: 'Produto adicionado com sucesso!'
+          });
+          this.router.navigate(['/produtos']);
+        }
         this.salvando = false;
-        this.router.navigate(['/categorias']);
       })
       .catch((erro) => {
         this.salvando = false;
         this.erroHandler.handle(erro);
-      })
+      });
   }
-
+  
+  
+  
   carregarProduto(id: number) {
     this.produtoService.buscarPorId(id)
       .then((obj) => {
@@ -89,12 +117,11 @@ export class ProdutoCadastroComponent implements OnInit {
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de Categorias: ${this.produto.nome}`);
+    this.title.setTitle(`Edição de Categorias: ${this.produto.name}`);
   }
 
 
-
-  onFileSelected(event: any) {
+onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
 
@@ -107,15 +134,30 @@ export class ProdutoCadastroComponent implements OnInit {
   //   }
   // }
 
-
-  onUpload(event: UploadEvent) {
-    if (this.selectedFile) {
-      this.produtoService.uploadFoto(this.selectedFile).subscribe(
-        (response) => console.log('Sucesso!', response),
-        (error) => console.log('Erro', error)
-      );
-    }
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+  onUpload(event: any) {
+    this.selectedFile = event.files[0]; // Captura o arquivo selecionado
   }
+
+  onSubmit() {
+    if (this.selectedFile && this.descricao) {
+      const formData = new FormData();
+      formData.append('arquivo', this.selectedFile);
+      formData.append('descricao', this.descricao);
+
+      const produtoId = 1; // Substituir pelo ID correto do produto
+
+      this.produtoService.uploadFoto(produtoId, formData).subscribe({
+        next: (response) => {
+          this.messageService.add({severity: 'success', summary: 'Sucesso', detail: 'Foto salva com sucesso!'});
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: 'Erro', detail: 'Falha ao salvar a foto.'});
+        }
+      });
+    } else {
+      this.messageService.add({severity: 'warn', summary: 'Atenção', detail: 'Selecione um arquivo e insira a descrição.'});
+    }
+  }
+  
 
 }

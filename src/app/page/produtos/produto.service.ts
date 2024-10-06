@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { Produto } from 'src/app/core/models/produto.model';
 
 @Injectable({
@@ -13,12 +13,14 @@ export class ProdutoService {
 
   constructor(private http: HttpClient) { }
 
-  uploadFoto(file: File) {
-    const formData: FormData = new FormData();
-    formData.append('file', file);
-    return this.http.post(`${this.baseUrl}/upload-foto`, formData);
+  // Faz o upload da foto associando ao produto por ID
+  uploadFoto(produtoId: number, formData: FormData): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${produtoId}/foto`, formData);
   }
-
+  
+  
+  
+  
 
   adicionar(produto: Produto): Promise<Produto> {
     return firstValueFrom(
@@ -26,22 +28,20 @@ export class ProdutoService {
     );
   }
 
-  buscarPorId(id: number) {
+  buscarPorId(id: number): Promise<Produto> {
     return firstValueFrom(this.http.get(`${this.baseUrl}/${id}`)).then(
       (response) => {
-        const categoria = response as Produto;
-        this.converterStringsParaDatas([categoria]);
-        return categoria;
+        const produto = response as Produto;
+        this.converterStringsParaDatas([produto]);
+        return produto;
       }
     );
   }
 
-
-  private converterStringsParaDatas(categ: Produto[]) {
-    for (const categoria of categ) {
-      if (categoria.datagravacao === null) {
-      } else {
-        categoria.datagravacao = moment(categoria.datagravacao, 'YYYY-MM-DD').toDate();
+  private converterStringsParaDatas(produtos: Produto[]) {
+    for (const produto of produtos) {
+      if (produto.datagravacao) {
+        produto.datagravacao = moment(produto.datagravacao, 'YYYY-MM-DD').toDate();
       }
     }
   }

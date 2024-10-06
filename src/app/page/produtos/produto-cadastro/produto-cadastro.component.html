@@ -21,9 +21,9 @@
           <span>Nome</span>
           <input
             type="text"
-            name="nome"
-            #nome="ngModel"
-            [(ngModel)]="produto.nome"
+            name="name"
+            #name="ngModel"
+            [(ngModel)]="produto.name"
             pInputText
             class="w-full"
             [required]="true"
@@ -34,34 +34,41 @@
           />
 
           <app-message
-            [control]="nome"
+            [control]="name"
             error="required"
             text="Nome é obrigatório..."
           ></app-message>
           <app-message
-            [control]="nome"
+            [control]="name"
             error="minlength"
             text="Mínimo de 2 caracteres..."
           ></app-message>
           <app-message
-            [control]="nome"
+            [control]="name"
             error="maxlength"
             text="Máximo de 60 caracteres..."
           ></app-message>
         </div>
 
-        <div class="flex justify-content-center">
-          <div class="flex align-items-center justify-content-center">
-            <p-fileUpload
-              mode="basic"
-              chooseLabel="Choose"
-              chooseIcon="pi pi-upload"
-              name="demo[]"
-              url="https://www.primefaces.org/cdn/api/upload.php"
-              accept="image/*"
-              maxFileSize="1000000"
-              (onUpload)="onUpload($event)"
-            />
+        <div class="p-grid p-fluid">
+          <div class="p-col-12 p-md-6">
+            <h3>Upload de Foto do Produto</h3>
+        
+            <form (ngSubmit)="onSubmit()">
+              <div class="p-field">
+                <label for="descricao">Descrição da Foto</label>
+                <input type="text" pInputText [(ngModel)]="descricao" name="descricao" required />
+              </div>
+        
+              <div class="p-field">
+                <label for="foto">Selecione a Foto</label>
+                <p-fileUpload name="file" customUpload="true" (uploadHandler)="onUpload($event)" accept="image/*" mode="basic" auto="true" chooseLabel="Escolher Foto"></p-fileUpload>
+              </div>
+        
+              <div class="p-field">
+                <button pButton type="submit" label="Salvar Foto" icon="pi pi-save"></button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
