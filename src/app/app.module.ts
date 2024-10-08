@@ -15,6 +15,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SegurancaModule } from './page/seguranca/seguranca.module';
 import { PrimeNGModule } from './primeng.module';
+import { MessageService } from 'primeng/api';
 
 
 registerLocaleData(localePt, 'pt');
@@ -38,7 +39,7 @@ export const maskConfig: Partial<IConfig> = {
     //DashboardsModule,
     AppRoutingModule,
     NgxSpinnerModule,
-    SharedModule
+    SharedModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

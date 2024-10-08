@@ -173,9 +173,9 @@ export class ProdutosListarComponent implements OnInit {
             summary: 'Produto',
             detail: `${response.descricao} Adicionado  com sucesso`
           });
-
-          // Após um pequeno delay, recarrega a página para atualizar a lista
-          this.router.navigate(['/produtos']);
+          setTimeout(() => {
+            window.location.reload();  // Recarrega a página
+          }, 2000);
         })
         .catch((err) => {
           // Exibe mensagem de erro em caso de falha

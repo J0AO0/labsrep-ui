@@ -47,6 +47,6 @@ import { CategoriasService } from "../page/categorias/categorias.service";
   exports: [
     ConfirmDialogModule,
     LayoutComponent,
-   ],
+  ],
 })
-export class CoreModule {}
+export class CoreModule { }
