@@ -5,6 +5,10 @@ import { Table } from 'primeng/table';
 import { ProdutoService } from '../../produto.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ValidationService } from 'src/app/core/services/validation.service';
+import { OverlayPanel } from 'primeng/overlaypanel';
+import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 export interface Product {
   name: string;
@@ -26,10 +30,13 @@ export class ProdutosListarComponent implements OnInit {
   descricao: string = '';
   selectedFile: File | null = null;
   idProduto: number;
-  imagem: any
   produtoId: any
 
   @ViewChild('tabela') table: Table;
+
+  @ViewChild('imagem') imagem: OverlayPanel;
+
+
   rowsPerPageTable: number[] = [10, 25, 50, 100, 200, 500];
   produtos = [];
   cols: any[];
@@ -44,6 +51,7 @@ export class ProdutosListarComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private validationService: ValidationService,
     private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -114,9 +122,32 @@ export class ProdutosListarComponent implements OnInit {
       })
   }
 
-  onUpload(event: any) {
-    this.selectedFile = event.files[0]; // Captura o arquivo selecionado
-  }
+
+
+  // onSubmit() {
+  //   if (this.selectedFile && this.descricao) {
+  //     const formData = new FormData();
+  //     formData.append('arquivo', this.selectedFile);
+  //     formData.append('descricao', this.descricao);
+
+  //     if (!this.produtoId) {
+  //       this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Produto não selecionado.' });
+  //       return;
+  //     }
+
+  //     this.produtoService.uploadFoto(this.produtoId, formData).subscribe({
+  //       next: (response) => {
+  //         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Foto salva com sucesso!' });
+  //       },
+  //       error: (err) => {
+  //         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao salvar a foto.' });
+  //       }
+  //     });
+  //   } else {
+  //     this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Selecione um arquivo e insira a descrição.' });
+  //   }
+  // }
+
 
   onSubmit() {
     if (this.selectedFile && this.descricao) {
@@ -125,25 +156,54 @@ export class ProdutosListarComponent implements OnInit {
       formData.append('descricao', this.descricao);
 
       if (!this.produtoId) {
-        this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Produto não selecionado.' });
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Atenção',
+          detail: 'Produto não selecionado.'
+        });
         return;
       }
 
-      this.produtoService.uploadFoto(this.produtoId, formData).subscribe({
-        next: (response) => {
-          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Foto salva com sucesso!' });
-        },
-        error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao salvar a foto.' });
-        }
-      });
+      // Convertendo Observable para Promise
+      lastValueFrom(this.produtoService.uploadFoto(this.produtoId, formData))  // Usar lastValueFrom
+        .then((response) => {
+          // Exibe mensagem de sucesso no Toast
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Produto',
+            detail: `${response.descricao} Adicionado  com sucesso`
+          });
+
+          // Após um pequeno delay, recarrega a página para atualizar a lista
+          this.router.navigate(['/produtos']);
+        })
+        .catch((err) => {
+          // Exibe mensagem de erro em caso de falha
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao salvar a foto.'
+          });
+        });
     } else {
-      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Selecione um arquivo e insira a descrição.' });
+      // Exibe mensagem de alerta caso o arquivo ou descrição não tenha sido preenchido
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Selecione um arquivo e insira a descrição.'
+      });
     }
   }
 
-  onImageButtonClick(produtoId: number, event: any) {
-    this.produtoId = produtoId;      // Store the selected produtoId
+
+  onFileSelect(event: any) {
+    this.selectedFile = event.files[0];  // Seleciona o primeiro arquivo
+  }
+
+
+  onImageButtonClick(produtoId: number, event: Event) {
+    this.produtoId = produtoId;
+    this.imagem.show(event);  // Abre o OverlayPanel no local do clique
   }
 
 }

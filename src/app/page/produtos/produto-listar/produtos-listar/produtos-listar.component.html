@@ -117,7 +117,7 @@
               pTooltip="Adiconar Imagem"
               icon="pi pi-camera"
               tooltipPosition="top"
-              (click)="onImageButtonClick(produto.id, imagem.target($event))"
+              (click)="onImageButtonClick(produto.id, $event)"
             ></button>
           </td>
           <td
@@ -167,7 +167,7 @@
     <div class="p-col-12 p-md-6">
       <h3>Upload de Foto do Produto</h3>
 
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" #produtoForm="ngForm">
         <div class="p-field">
           <label for="descricao">Descrição da Foto</label>
           <input
@@ -184,11 +184,11 @@
           <p-fileUpload
             name="file"
             customUpload="true"
-            (uploadHandler)="onUpload($event)"
             accept="image/*"
             mode="basic"
             auto="true"
             chooseLabel="Escolher Foto"
+            (onSelect)="onFileSelect($event)"
           ></p-fileUpload>
         </div>
 
