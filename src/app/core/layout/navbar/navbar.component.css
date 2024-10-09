@@ -350,3 +350,20 @@ hr {
 a {
   font-weight: bold;
 }
+
+
+@media (max-width: 768px) {
+  .login {
+    display: none; /* Oculta em dispositivos móveis */
+  }
+}
+.perfill {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .perfill {
+    display: flex; /* Exibe o avatar no modo mobile */
+    align-items: center; /* Ajusta o alinhamento do conteúdo */
+  }
+}

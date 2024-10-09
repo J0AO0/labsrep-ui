@@ -26,7 +26,7 @@ export class ProdutoCadastroComponent implements OnInit {
 
   regex = new Regex();
   salvando: boolean = false;
-  produto = new Produto();
+  produtos = new Produto();
   idProduto: number;
 
   produtoId: any
@@ -44,20 +44,20 @@ export class ProdutoCadastroComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.carregarCategoria()
+    this.carregarCategoria();
     this.title.setTitle('Cadastro Categoria');
     this.idProduto = this.route.snapshot.params['id'];
     if (this.idProduto) {
       this.spinner.show();
       this.carregarProduto(this.idProduto);
     } else {
-      this.produto.status = true;
+      this.produtos.status = true;
     }
   }
 
 
   get editando() {
-    return Boolean(this.produto.id);
+    return Boolean(this.produtos.id);
   }
 
   salvar(form: NgForm) {
@@ -67,11 +67,36 @@ export class ProdutoCadastroComponent implements OnInit {
     }
   }
 
+  atualizarProduto(form: NgForm) {
+    this.salvando = true;
+    this.carregarCategoria()
+    // console.log(this.selectedPaciente);
+    // console.log(this.atendimentos);
+    this.produtoService
+      .atualizar(this.produtos)
+      .then((produto) => {
+        this.produtos = produto;
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Produto',
+          detail: `alterado com sucesso!`,
+        });
+        this.salvando = false;
+        this.router.navigate(['/produtos']);
+        this.atualizarTituloEdicao();
+      })
+      .catch((erro) => {
+        this.salvando = false;
+        this.erroHandler.handle(erro);
+      });
+  }
+
   adicionarProduto(form: NgForm) {
     this.salvando = true;
+    this.carregarCategoria();
 
     // Primeiro adiciona o produto
-    this.produtoService.adicionar(this.produto)
+    this.produtoService.adicionar(this.produtos)
       .then((produtoAdicionado) => {
         // Verifique se o arquivo de imagem foi selecionado
         if (this.selectedFile) {
@@ -115,7 +140,16 @@ export class ProdutoCadastroComponent implements OnInit {
   carregarProduto(id: number) {
     this.produtoService.buscarPorId(id)
       .then((obj) => {
-        this.produto = obj;
+        setTimeout(() => {
+          this.selectedCategoria = this.categorias.find(
+            (pac) => pac.value === obj.categoria.id
+          );
+
+
+
+
+        }, 300);
+        this.produtos = obj;
         this.atualizarTituloEdicao();
         this.spinner.hide();
       })
@@ -126,7 +160,7 @@ export class ProdutoCadastroComponent implements OnInit {
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de Categorias: ${this.produto.name}`);
+    this.title.setTitle(`Edição de Categorias: ${this.produtos.name}`);
   }
 
 

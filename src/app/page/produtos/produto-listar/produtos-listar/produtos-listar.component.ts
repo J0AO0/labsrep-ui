@@ -175,7 +175,7 @@ export class ProdutosListarComponent implements OnInit {
           });
           setTimeout(() => {
             window.location.reload();  // Recarrega a página
-          }, 2000);
+          }, 1000);
         })
         .catch((err) => {
           // Exibe mensagem de erro em caso de falha

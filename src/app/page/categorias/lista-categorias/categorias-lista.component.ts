@@ -84,7 +84,7 @@ export class CategoriasListaComponent implements OnInit {
   ngOnInit() {
     this.filtroDefault();
     this.conf.ripple = true;
-    this.title.setTitle('Pacientes');
+    this.title.setTitle('Categorias');
     // this.carregarPacientes();
 
     this.items = [

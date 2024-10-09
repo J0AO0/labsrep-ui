@@ -23,7 +23,7 @@
             type="text"
             name="name"
             #name="ngModel"
-            [(ngModel)]="produto.name"
+            [(ngModel)]="produtos.name"
             pInputText
             class="w-full"
             [required]="true"
@@ -54,9 +54,9 @@
           <span>Descrição</span>
           <input
             type="text"
-            name="name"
+            name="descricao"
             #name="ngModel"
-            [(ngModel)]="produto.descricao"
+            [(ngModel)]="produtos.descricao"
             pInputText
             class="w-full"
             [required]="true"
@@ -76,7 +76,7 @@
             name="valor"
             #valor="ngModel"
             [required]="true"
-            [(ngModel)]="produto.preco"
+            [(ngModel)]="produtos.preco"
           ></p-inputNumber>
         </div>
         <div class="col-12 md:col-6 lg:col-3">
@@ -149,7 +149,7 @@
       <div class="flex justify-content-center">
         <div class="flex align-items-center justify-content-center">
           <p-inputSwitch
-            [(ngModel)]="produto.status"
+            [(ngModel)]="produtos.status"
             name="status"
             [ngModelOptions]="{ standalone: true }"
           ></p-inputSwitch>
