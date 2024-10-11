@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import * as moment from 'moment-timezone';
 import { firstValueFrom } from 'rxjs';
+import { FiltroUsuarios } from 'src/app/core/models/filtros.model';
 import { Usuarios } from 'src/app/core/models/usuarios.model';
 import { environment } from 'src/environments/environment';
 
@@ -31,7 +32,7 @@ export class UsuariosService {
   }
 
   listarUsuarios(): Promise<any> {
-    return firstValueFrom(this.http.get(`${this.usuariosUrl}`)).then(
+    return firstValueFrom(this.http.get(`${this.usuariosUrl}/user`)).then(
       (response) => {
         const obj = response as any[];
         this.convertStringDate(obj);
@@ -118,4 +119,75 @@ export class UsuariosService {
       }
     });
   }
+
+  listarComFiltro(filtro: FiltroUsuarios): Promise<any> {
+    const param: { [k: string]: any } = this.validarParametros(filtro);
+    return firstValueFrom(this.http.get(`${this.usuariosUrl}`, { params: param })).then(
+      (response: any) => {
+        this.converterStringsParaDatasFiltro(response.content);
+        return response;
+      }
+    );
+  }
+
+  validarParametros(filtro: FiltroUsuarios) {
+    const obj: { [k: string]: any } = {};
+
+    obj.page = filtro.pagina;
+    obj.size = filtro.itensPorPagina;
+
+    if (filtro.id) {
+      obj.id = filtro.id;
+    }
+
+    if (filtro.emailusuario) {
+      obj.emailusuario = filtro.emailusuario;
+    }
+
+    if (filtro.datagravacaode) {
+      obj.datagravacaode = filtro.datagravacaode;
+    }
+
+    if (filtro.datagravacaoate) {
+      obj.datagravacaoate = filtro.datagravacaoate;
+    }
+
+    if (filtro.status) {
+      obj.status = filtro.status;
+    }
+
+    if (filtro.nome) {
+      obj.nome = filtro.nome;
+    }
+
+    if (filtro.telefone) {
+      obj.telefone = filtro.telefone;
+    }
+
+    if (filtro.email) {
+      obj.email = filtro.email;
+    }
+
+    if (filtro.login) {
+      obj.login = filtro.login;
+    }
+
+    return obj;
+  }
+
+  private converterStringsParaDatasFiltro(obj: any[]) {
+    obj.forEach((element) => {
+      if (element.datanasc) {
+        element.datanasc = moment(element.datanasc, 'YYYY-MM-DD H:mm')
+          .tz('America/Sao_Paulo')
+          .toDate();
+      }
+      if (element.datagravacao) {
+        element.datagravacao = moment(element.datagravacao, 'YYYY-MM-DD H:mm')
+          .tz('America/Sao_Paulo')
+          .toDate();
+      }
+    });
+  }
+
 }

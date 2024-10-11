@@ -126,7 +126,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   carregarEmpresaPadrao() {
     this.loading = true;
     return this.empresaService
-      .listarEmpresaPadrao()
+      .listar()
       .then((obj) => {
         this.empresas = obj;
         this.loading = false;

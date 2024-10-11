@@ -7,10 +7,11 @@ import { UsuarioCadastroComponent } from './usuario-cadastro/usuario-cadastro.co
 import { UsuarioEditarComponent } from './usuario-editar/usuario-editar.component';
 import { UsuariosListaComponent } from './usuarios-lista/usuarios-lista.component';
 import { UsuariosRountingModule } from './usuarios.routing';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @NgModule({
   declarations: [
-   UsuarioCadastroComponent,
+    UsuarioCadastroComponent,
     UsuariosListaComponent,
     UsuarioEditarComponent,
     AlterarSenhaComponent
@@ -20,7 +21,9 @@ import { UsuariosRountingModule } from './usuarios.routing';
     PrimeNGModule,
     UsuariosRountingModule,
     ValidateEqualModule,
-    SharedModule
+    SharedModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ]
 })
 export class UsuariosModule { }

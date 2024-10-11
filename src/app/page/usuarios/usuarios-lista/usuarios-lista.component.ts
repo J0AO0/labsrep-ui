@@ -1,14 +1,16 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-import { MenuItem, PrimeNGConfig } from 'primeng/api';
+import { LazyLoadEvent, MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
-import { Usuarios } from 'src/app/core/models/usuarios.model';
 import { ValidationService } from 'src/app/core/services/validations.service';
 import { AuthService } from '../../seguranca/auth.service';
 import { UsuariosService } from './../usuarios.service';
+import { Paginator } from 'primeng/paginator';
+import { FiltroUsuarios } from 'src/app/core/models/filtros.model';
+import { FiltroUsuariosService } from 'src/app/core/services/filtros-services/filtro-usuarios.service';
 
 
 
@@ -20,25 +22,37 @@ import { UsuariosService } from './../usuarios.service';
 export class UsuariosListaComponent implements OnInit {
 
   @ViewChild('tabela') table: Table;
+  @ViewChild('paginator') paginator: Paginator;
+  @ViewChild('buttonFilter') buttonFilter: ElementRef;
+
 
   rowsPerPageTable: number[] = [10, 25, 50, 100, 200];
-  cols: any[];
+  usuarios = [];
   sinal = true;
   status = 'Ativo';
-  usuariosUrl: string;
-  usuarios = [];
-  usuario: Usuarios;
-  _selectedColumns: any[];
-  selectionCols: Usuarios;
-  tabela: any;
-  display: boolean;
+  cols: any[];
+  salvando: boolean;
+  dateRangeStart: string;
+  dateRangeEnd: string;
+  selectedUsuarios: any;
+  rangeDatesFiltroDataNasc: Date[];
+  rangeDatesFiltroGravacao: Date[];
+  totalRegistros: 0;
+  messageDrop = 'Nenhum resultado encontrado...';
   valorTooltip = 'Inativos';
   messagePageReport = 'Mostrando {first} a {last} de {totalRecords} registros';
   items: MenuItem[];
+  timeout: any;
+  datagravacaode: string;
+  datagravacaoate: string;
+  totalPages = 0;
+  first = 1;
+  blockBtnFilter = false;
+  filtro = new FiltroUsuarios()
 
-  showDialog() {
-    this.display = true;
-  }
+
+
+
   constructor(
     private title: Title,
     private userService: UsuariosService,
@@ -46,20 +60,36 @@ export class UsuariosListaComponent implements OnInit {
     private conf: PrimeNGConfig,
     private errorHandler: ErrorHandlerService,
     private validationService: ValidationService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private filtroUser: FiltroUsuariosService
   ) { }
 
   onClear() {
-    this.table.clear();
+    this.cols.forEach(col => {
+      if (col.qty === null || col.qty === undefined) { } else {
+        col.qty = null;
+      }
+    });
+    this.datagravacaode = null;
+    this.datagravacaoate = null;
+    this.filtro = new FiltroUsuarios();
+    this.filtroDefault();
+    this.carregarUsers();
   }
   refresh() {
     this.carregarUsers();
   }
+  filtroDefault() {
+    this.filtro.pagina = 0;
+    this.filtro.itensPorPagina = 10;
+    this.filtro.status = 'Ativos';
+  }
 
   ngOnInit() {
+    this.filtroDefault();
     this.conf.ripple = true;
-    this.title.setTitle('Usuários');
-    this.carregarUsers();
+    this.title.setTitle('Usuarios');
+    // this.carregarPacientes();
 
     this.items = [
       {
@@ -73,26 +103,19 @@ export class UsuariosListaComponent implements OnInit {
 
     this.cols = [
       { field: 'id', header: 'Código', width: '130px', type: 'numeric' },
-      { field: 'nome', header: 'Nome', width: '200px' , type: 'text'},
-      { field: 'email', header: 'E-mail', width: '300px', type: 'text' },
-      { field: 'datagravacao', header: 'Data Alteração', width: '200px', type: 'date', data: true, format: `dd/MM/yyyy H:mm` },
-      { field: 'emailusuario', header: 'Usuário Alteração', width: '300px', type: 'text' },
-      { field: 'statusformatado', header: 'Status', width: '100px', type: 'text' }
+      { field: 'nome', header: 'Descrição', width: '250px', type: 'text' },
+      { field: 'datagravacao', header: 'Data Gravação', width: '170px', type: 'date', data: true, format: `dd/MM/yyyy H:mm` },
+      { field: 'emailusuario', header: 'Usuário Gravação', width: '190px', type: 'text' }
     ];
-    this._selectedColumns = this.cols;
   }
-  @Input() get selectedColumns(): any[] {
-    return this._selectedColumns;
-  }
-  set selectedColumns(val: any[]) {
-    this._selectedColumns = this.cols.filter(col => val.includes(col));
-  }
+
   carregarUsers() {
     this.spinner.show();
-    this.userService.listarUsuarios()
-      .then(user => {
-        this.usuarios = user;
-        this.usuarios = this.validationService.formataAtivoeInativo(this.usuarios);
+    this.userService.listarComFiltro(this.filtro)
+      .then(obj => {
+        this.usuarios = obj.content;
+        this.totalRegistros = obj.totalElements;
+        this.totalPages = obj.totalPages;
         this.spinner.hide();
       })
       .catch((erro) => {
@@ -101,25 +124,102 @@ export class UsuariosListaComponent implements OnInit {
       });
   }
 
+  changePage(event: LazyLoadEvent) {
+    this.filtro.pagina = event.first / event.rows;
+    this.filtro.itensPorPagina = event?.rows;
+    this.carregarUsers();
+  }
+
   AlternarLista() {
-    this.spinner.show();
-    const valor = this.sinal ? '/inativos' : '/';
-    if (this.sinal === true) {
-      this.valorTooltip = 'Ativos';
-      this.sinal = false;
+    if (this.filtro.status === 'Ativos') {
+      this.filtro.status = 'Inativos';
     } else {
-      this.valorTooltip = 'Inativos';
-      this.sinal = true;
+      this.filtro.status = 'Ativos';
     }
-    this.userService.AlternarLista(valor)
-      .then(obj => {
-        this.usuarios = obj
-        this.usuarios = this.validationService.formataAtivoeInativo(this.usuarios);
+    this.carregarUsers();
+  }
+
+  searchData(tipo: string) {
+
+    if (tipo === 'datagravacaode') {
+      if (this.datagravacaode && this.datagravacaode.length === 10) {
+        const dia = this.datagravacaode.substring(0, 2);
+        const mes = this.datagravacaode.substring(3, 5);
+        const ano = this.datagravacaode.substring(6, 10);
+        this.filtro.datagravacaode = ano + '-' + mes + '-' + dia;
+      } else {
+        this.filtro.datagravacaode = '';
+      }
+    }
+    if (tipo === 'datagravacaoate') {
+      if (this.datagravacaoate && this.datagravacaoate.length === 10) {
+        const dia = this.datagravacaoate.substring(0, 2);
+        const mes = this.datagravacaoate.substring(3, 5);
+        const ano = this.datagravacaoate.substring(6, 10);
+        this.filtro.datagravacaoate = ano + '-' + mes + '-' + dia;
+      } else {
+        this.filtro.datagravacaoate = '';
+      }
+    }
+    if (this.timeout) { clearTimeout(this.timeout); }
+    this.timeout = setTimeout(() => {
+      this.carregarUsers();
+      this.FirstPage();
+    }, 800);
+  }
+
+  search(value: any) {
+    if (this.timeout) { clearTimeout(this.timeout); }
+    this.timeout = setTimeout(() => {
+      this.applySearch(value);
+    }, 800);
+  }
+
+  FirstPage() {
+    this.paginator.changePage(0);
+  }
+
+
+  applySearch(value: any) {
+    this.blockBtnFilter = true;
+    if (
+      value.qty === null ||
+      value.qty === undefined
+    ) {
+      this.btnBlock();
+    } else {
+      this.filtroUser.filtro(value, this.filtro).then((obj) => {
+        this.filtro = obj;
+        this.carregarUsers();
+        this.FirstPage();
+        this.btnBlock();
+      }).catch((erro) => {
         this.spinner.hide();
-      })
-      .catch((erro) => {
-        this.spinner.hide();
+        this.btnBlock();
         this.errorHandler.handle(erro);
       });
+    }
   }
+
+  btnBlock() {
+    setTimeout(() => {
+      this.blockBtnFilter = false;
+    }, 680);
+  }
+
+  verifyFocus() {
+    this.buttonFilter.nativeElement.focus();
+  }
+
+  limparData(tipo: string) {
+    if (tipo === 'dataGravacao') {
+      this.filtro.datagravacaode = '';
+      this.filtro.datagravacaoate = '';
+      this.datagravacaode = '';
+      this.datagravacaoate = '';
+    }
+
+    this.carregarUsers();
+  }
+
 }

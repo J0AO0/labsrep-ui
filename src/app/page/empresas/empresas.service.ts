@@ -22,7 +22,7 @@ export class EmpresasService {
 
 
   listar(): Promise<any> {
-    return firstValueFrom(this.http.get(`${this.empresaUrl}/lista`)).then(
+    return firstValueFrom(this.http.get(`${this.empresaUrl}/empresapadrao`)).then(
       (response) => {
         const obj = response as any[];
         this.convertStringDate(obj);
@@ -44,7 +44,7 @@ export class EmpresasService {
 
 
   listarEmpresas(): Promise<any> {
-    return firstValueFrom(this.http.get(`${this.empresaUrl}`)).then(
+    return firstValueFrom(this.http.get(`${this.empresaUrl}/empresapadrao`)).then(
       (response) => {
 
         const obj = response as any[];
@@ -86,51 +86,51 @@ export class EmpresasService {
     if (filtro.naturezapessoa) {
       obj.naturezapessoa = filtro.naturezapessoa;
     }
-    
+
     if (filtro.cep) {
       obj.cep = filtro.cep;
     }
-    
+
     if (filtro.logradouro) {
       obj.logradouro = filtro.logradouro;
     }
-    
+
     if (filtro.numero) {
       obj.numero = filtro.numero;
     }
-    
+
     if (filtro.complemento) {
       obj.complemento = filtro.complemento;
     }
-    
+
     if (filtro.bairro) {
       obj.bairro = filtro.bairro;
     }
-    
+
     if (filtro.cidade) {
       obj.cidade = filtro.cidade;
     }
-    
+
     if (filtro.uf) {
       obj.uf = filtro.uf;
     }
-    
+
     if (filtro.nomecontato) {
       obj.nomecontato = filtro.nomecontato;
     }
-    
+
     if (filtro.telefone) {
       obj.telefone = filtro.telefone;
     }
-    
+
     if (filtro.whats) {
       obj.whats = filtro.whats;
     }
-    
+
     if (filtro.email) {
       obj.email = filtro.email;
     }
-    
+
     if (filtro.valor) {
       obj.valor = filtro.valor;
     }
