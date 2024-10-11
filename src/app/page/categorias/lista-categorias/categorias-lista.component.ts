@@ -1,15 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { NgxSpinnerService } from 'ngx-spinner';
+
 import { LazyLoadEvent, MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { CategoriasService } from '../categorias.service';
-import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { Paginator } from 'primeng/paginator';
-import { FiltrosCategorias } from 'src/app/core/models/filtros.model';
+
+import { NgxSpinnerService } from 'ngx-spinner';
+
 import { AuthService } from '../../seguranca/auth.service';
-import { FiltroCategoriasService } from 'src/app/core/services/filtros-services/filtro-categorias.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+
+import { CategoriasService } from '../categorias.service';
+import { FiltrosCategorias } from 'src/app/core/models/filtros.model';
+import { FiltroCategoriasService } from 'src/app/core/services/filtros-services/filtro-categorias.service';
 
 @Component({
   selector: 'app-categorias-lista',

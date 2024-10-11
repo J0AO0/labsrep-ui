@@ -106,13 +106,27 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     this.menu = false;
     this.displayEmpresas = true;
     // colocar timeOut
-    this.carregarEmpresasUsuario();
+    this.carregarEmpresaPadrao();
     console.log(this.empresaService.listarEmpresas);
   }
   carregarEmpresasUsuario() {
     this.loading = true;
     return this.empresaService
-      .listarEmpresasUsuario()
+      .listarEmpresas()
+      .then((obj) => {
+        this.empresas = obj;
+        this.loading = false;
+      })
+      .catch((erro) => {
+        this.errorHandler.handle(erro);
+        this.loading = false;
+      });
+  }
+
+  carregarEmpresaPadrao() {
+    this.loading = true;
+    return this.empresaService
+      .listarEmpresaPadrao()
       .then((obj) => {
         this.empresas = obj;
         this.loading = false;

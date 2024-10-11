@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'produtos', loadChildren: () =>
-    import('./page/produtos/produto.module').then(m =>  m.ProdutoModule)
+    import('./page/produtos/produtos.module').then(m =>  m.ProdutoModule)
   },
  // { path: 'alterarsenha', component: AlterarSenhaComponent },
 

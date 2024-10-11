@@ -1,21 +1,27 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { PrimeNGModule } from 'src/app/primeng.module';
-import { SharedModule } from './../../shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ProdutoCadastroComponent } from './produto-cadastro/produto-cadastro.component';
+import { ProdutosListarComponent } from './produto-lista/produtos-lista.component';
 import { ProdutosRountingModule } from './produtos.routing';
-import { ProdutosListarComponent } from './produto-listar/produtos-listar/produtos-listar.component';
+
 
 
 @NgModule({
   declarations: [
     ProdutoCadastroComponent,
     ProdutosListarComponent
-    //  EmpresasListaComponent
   ],
+
   imports: [
-    PrimeNGModule,
-    SharedModule,
-    ProdutosRountingModule
+    PrimeNGModule, 
+    SharedModule, 
+    FormsModule, 
+    ProdutosRountingModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
 })
 export class ProdutoModule { }

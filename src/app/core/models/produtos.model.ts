@@ -1,5 +1,5 @@
 import { Categorias } from './categorias.model';
-export class Produto {
+export class Produtos {
     id?: number;
     name?: string;
     descricao?: string;

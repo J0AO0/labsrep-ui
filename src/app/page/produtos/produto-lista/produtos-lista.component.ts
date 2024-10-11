@@ -1,44 +1,55 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-
-import { LazyLoadEvent, MenuItem, PrimeNGConfig } from 'primeng/api';
+import { LazyLoadEvent, MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Paginator } from 'primeng/paginator';
-
+import { ProdutoService } from '../produtos.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-
-import { AuthService } from '../../seguranca/auth.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
+import { OverlayPanel } from 'primeng/overlaypanel';
+import { lastValueFrom } from 'rxjs';
+import { Paginator } from 'primeng/paginator';
+import { FiltrosProdutos } from 'src/app/core/models/filtros.model';
+import { AuthService } from '../../seguranca/auth.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { FiltroProdutosService } from 'src/app/core/services/filtros-services/filtro-produtos.service';
 
-import { EmpresasService } from '../empresas.service';
-import { FiltrosEmpresas } from 'src/app/core/models/filtros.model';
-import { FiltroEmpresasService } from 'src/app/core/services/filtros-services/filtro-empresas.service';
-
-
+export interface Product {
+  name: string;
+  category: string;
+  description: string;
+  price: number;
+  image: string;
+  inventoryStatus: string;
+  rating: number;
+}
 
 @Component({
-  selector: 'app-empresas-lista',
-  templateUrl: './empresas-lista.component.html',
-  styleUrls: ['./empresas-lista.component.css'],
+  selector: 'app-produtos-lista',
+  templateUrl: './produtos-lista.component.html',
+  styleUrl: './produtos-lista.component.css'
 })
+export class ProdutosListarComponent implements OnInit {
 
-export class EmpresasListaComponent implements OnInit {
+  descricao: string = '';
+  selectedFile: File | null = null;
+  idProduto: number;
+  produtoId: any
 
   @ViewChild('tabela') table: Table;
   @ViewChild('paginator') paginator: Paginator;
-  @ViewChild('buttonFilter') buttonFilter: ElementRef; s
+  @ViewChild('buttonFilter') buttonFilter: ElementRef;
+  @ViewChild('imagem') imagem: OverlayPanel;
 
 
   rowsPerPageTable: number[] = [10, 25, 50, 100, 200];
-  empresas = [];
+  produtos = [];
   sinal = true;
   status = 'Ativo';
   cols: any[];
   salvando: boolean;
   dateRangeStart: string;
   dateRangeEnd: string;
-  selectedEmpresa: any;
+  selectedProduto: any;
   rangeDatesFiltroDataNasc: Date[];
   rangeDatesFiltroGravacao: Date[];
   totalRegistros: 0;
@@ -52,17 +63,18 @@ export class EmpresasListaComponent implements OnInit {
   totalPages = 0;
   first = 1;
   blockBtnFilter = false;
-  filtro = new FiltrosEmpresas()
+  filtro = new FiltrosProdutos()
 
   constructor(
     private title: Title,
-    private empService: EmpresasService,
+    private prodService: ProdutoService,
     public auth: AuthService,
     private conf: PrimeNGConfig,
     private errorHandler: ErrorHandlerService,
     private validationService: ValidationService,
+    private messageService: MessageService,
     private spinner: NgxSpinnerService,
-    private filtroEmpresa: FiltroEmpresasService
+    private filtroProduto: FiltroProdutosService
   ) { }
 
   onClear() {
@@ -73,13 +85,13 @@ export class EmpresasListaComponent implements OnInit {
     });
     this.datagravacaode = null;
     this.datagravacaoate = null;
-    this.filtro = new FiltrosEmpresas();
+    this.filtro = new FiltrosProdutos();
     this.filtroDefault();
-    this.carregarEmpresa();
+    this.carregarProduto();
   }
 
   refresh() {
-    this.carregarEmpresa();
+    this.carregarProduto();
   }
 
   filtroDefault() {
@@ -91,8 +103,8 @@ export class EmpresasListaComponent implements OnInit {
   ngOnInit() {
     this.filtroDefault();
     this.conf.ripple = true;
-    this.title.setTitle('Empresas');
-    this.carregarEmpresa();
+    this.title.setTitle('Produtos');
+    this.carregarProduto();
 
     this.items = [
       {
@@ -105,39 +117,30 @@ export class EmpresasListaComponent implements OnInit {
     ];
 
     this.cols = [
-      { field: 'id', header: 'Código', width: '115px', type: 'text' },
-      { field: 'razaosocial', header: 'Empresa', width: '250px', type: 'text' },
-      { field: 'cpfoucnpj', header: 'Cnpj', width: '200px', type: 'text' },
-      { field: 'naturezapessoa', header: 'Natureza Pessoa', width: '200px', type: 'text' },
-      { field: 'cep', header: 'Cep', width: '200px', type: 'text' },
-      { field: 'logradouro', header: 'Logradouro', width: '200px', type: 'text' },
-      { field: 'numero', header: 'Número', width: '200px', type: 'text' },
-      { field: 'complemento', header: 'Complemento', width: '200px', type: 'text' },
-      { field: 'bairro', header: 'Bairro', width: '200px', type: 'text' },
-      { field: 'cidade', header: 'Cidade', width: '150px', type: 'text' },
-      { field: 'uf', header: 'Estado', width: '130px', type: 'text' },
-      { field: 'nomecontato', header: 'Nome Contato', width: '200px', type: 'text' },
-      { field: 'telefone', header: 'Telefone', width: '200px', type: 'text' },
-      { field: 'whats', header: 'WhatsApp', width: '200px', type: 'text' },
-      { field: 'email', header: 'E-mail', width: '200px', type: 'text' },
-      { field: 'valor', header: 'Valor Empresa', width: '200px', type: 'text' },
-      { field: 'datagravacao', header: 'Data Gravação', width: '200px', data: true, format: `dd/MM/yyyy H:mm`, type: 'date' },
-      { field: 'emailusuario', header: 'Usuário Gravação', width: '250px', type: 'text' }
+      { field: 'id', header: 'Código', width: '130px', type: 'numeric' },
+      { field: 'name', header: 'Nome Produto', width: '250px', type: 'text' },
+      { field: 'descricao', header: 'Descrição', width: '250px', type: 'text' },
+      { field: 'preco', header: 'Preço', width: '250px', type: 'text' },
+      { field: 'categoria', header: 'Categoria', width: '250px', type: 'text' },
+      { field: 'datagravacao', header: 'Data Gravação', width: '170px', type: 'date', data: true, format: `dd/MM/yyyy H:mm` },
+      { field: 'emailusuario', header: 'Usuário Gravação', width: '190px', type: 'text' }
     ];
+
   }
+
 
   changePage(event: LazyLoadEvent) {
     this.filtro.pagina = event.first / event.rows;
     this.filtro.itensPorPagina = event?.rows;
-    this.carregarEmpresa();
+    this.carregarProduto();
   }
 
 
-  carregarEmpresa() {
+  carregarProduto() {
     this.spinner.show();
-    this.empService.listarComFiltro(this.filtro)
+    this.prodService.listarComFiltro(this.filtro)
       .then(obj => {
-        this.empresas = obj.content;
+        this.produtos = obj.content;
         this.totalRegistros = obj.totalElements;
         this.totalPages = obj.totalPages;
         this.spinner.hide();
@@ -155,7 +158,7 @@ export class EmpresasListaComponent implements OnInit {
     } else {
       this.filtro.status = 'Ativos';
     }
-    this.carregarEmpresa();
+    this.carregarProduto();
   }
 
   searchData(tipo: string) {
@@ -182,7 +185,7 @@ export class EmpresasListaComponent implements OnInit {
     }
     if (this.timeout) { clearTimeout(this.timeout); }
     this.timeout = setTimeout(() => {
-      this.carregarEmpresa();
+      this.carregarProduto();
       this.FirstPage();
     }, 800);
   }
@@ -207,9 +210,9 @@ export class EmpresasListaComponent implements OnInit {
     ) {
       this.btnBlock();
     } else {
-      this.filtroEmpresa.filtro(value, this.filtro).then((obj) => {
+      this.filtroProduto.filtro(value, this.filtro).then((obj) => {
         this.filtro = obj;
-        this.carregarEmpresa();
+        this.carregarProduto();
         this.FirstPage();
         this.btnBlock();
       }).catch((erro) => {
@@ -238,7 +241,66 @@ export class EmpresasListaComponent implements OnInit {
       this.datagravacaoate = '';
     }
 
-    this.carregarEmpresa();
+    this.carregarProduto();
   }
+
+  
+ /**   onSubmit() {
+    if (this.selectedFile && this.descricao) {
+      const formData = new FormData();
+      formData.append('arquivo', this.selectedFile);
+      formData.append('descricao', this.descricao);
+
+      if (!this.produtoId) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Atenção',
+          detail: 'Produto não selecionado.'
+        });
+        return;
+      }
+
+      // Convertendo Observable para Promise
+      lastValueFrom(this.prodService.uploadFoto(this.produtoId, formData))  // Usar lastValueFrom
+        .then((response) => {
+          // Exibe mensagem de sucesso no Toast
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Produto',
+            detail: `${response.descricao} Adicionado  com sucesso`
+          });
+          setTimeout(() => {
+            window.location.reload();  // Recarrega a página
+          }, 1000);
+        })
+        .catch((err) => {
+          // Exibe mensagem de erro em caso de falha
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao salvar a foto.'
+          });
+        });
+    } else {
+      // Exibe mensagem de alerta caso o arquivo ou descrição não tenha sido preenchido
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Selecione um arquivo e insira a descrição.'
+      });
+    }
+  }
+
+
+  onFileSelect(event: any) {
+    this.selectedFile = event.files[0];  // Seleciona o primeiro arquivo
+  }
+
+
+  onImageButtonClick(produtoId: number, event: Event) {
+    this.produtoId = produtoId;
+    this.imagem.show(event);  // Abre o OverlayPanel no local do clique
+  }
+*/
 
 }

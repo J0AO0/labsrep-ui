@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ProdutoService } from '../produto.service';
+import { ProdutoService } from '../produtos.service';
 import { Component, OnInit } from '@angular/core';
 import { Regex } from 'src/app/core/validators/regex';
-import { Produto } from 'src/app/core/models/produto.model';
+import { Produtos } from 'src/app/core/models/produtos.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -26,7 +26,7 @@ export class ProdutoCadastroComponent implements OnInit {
 
   regex = new Regex();
   salvando: boolean = false;
-  produtos = new Produto();
+  produtos = new Produtos();
   idProduto: number;
 
   produtoId: any
