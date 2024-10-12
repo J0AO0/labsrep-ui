@@ -9,8 +9,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { FiltrosCondPagamentos } from 'src/app/core/models/filtros.model';
-import { FiltroCondPagamentosService } from 'src/app/core/services/filtros-services/filtro-condpagamentos.service';
-
 
 @Component({
   selector: 'app-condpagamentos-lista',
@@ -21,8 +19,7 @@ export class CondPagamentosListaComponent implements OnInit {
 
   @ViewChild('tabela') table: Table;
   @ViewChild('paginator') paginator: Paginator;
-  @ViewChild('buttonFilter') buttonFilter: ElementRef; s
-
+  @ViewChild('buttonFilter') buttonFilter: ElementRef;
 
   rowsPerPageTable: number[] = [10, 25, 50, 100, 200];
   condpagamentos = [];
@@ -30,23 +27,17 @@ export class CondPagamentosListaComponent implements OnInit {
   status = 'Ativo';
   cols: any[];
   salvando: boolean;
-  dateRangeStart: string;
-  dateRangeEnd: string;
-  selectedCondPagamento: any;
-  rangeDatesFiltroDataNasc: Date[];
-  rangeDatesFiltroGravacao: Date[];
-  totalRegistros: 0;
+  totalRegistros = 0;
   messageDrop = 'Nenhum resultado encontrado...';
   valorTooltip = 'Inativos';
   messagePageReport = 'Mostrando {first} a {last} de {totalRecords} registros';
   items: MenuItem[];
   timeout: any;
-  datagravacaode: string;
-  datagravacaoate: string;
   totalPages = 0;
   first = 1;
   blockBtnFilter = false;
-  filtro = new FiltrosCondPagamentos()
+
+  filtro: FiltrosCondPagamentos = new FiltrosCondPagamentos(); // Inicializando o filtro
 
   constructor(
     private title: Title,
@@ -55,20 +46,15 @@ export class CondPagamentosListaComponent implements OnInit {
     private conf: PrimeNGConfig,
     private errorHandler: ErrorHandlerService,
     private validationService: ValidationService,
-    private spinner: NgxSpinnerService,
-    private filtroCondPagamento: FiltroCondPagamentosService
+    private spinner: NgxSpinnerService
   ) { }
 
   onClear() {
     this.cols.forEach(col => {
-      if (col.qty === null || col.qty === undefined) { } else {
+      if (col.qty !== null && col.qty !== undefined) {
         col.qty = null;
       }
     });
-    this.datagravacaode = null;
-    this.datagravacaoate = null;
-    this.filtro = new FiltrosCondPagamentos();
-    this.filtroDefault();
     this.carregarCondPagamento();
   }
 
@@ -76,14 +62,7 @@ export class CondPagamentosListaComponent implements OnInit {
     this.carregarCondPagamento();
   }
 
-  filtroDefault() {
-    this.filtro.pagina = 0;
-    this.filtro.itensPorPagina = 10;
-    this.filtro.status = 'Ativos';
-  }
-
   ngOnInit() {
-    this.filtroDefault();
     this.conf.ripple = true;
     this.title.setTitle('Condição de Pagamentos');
     this.carregarCondPagamento();
@@ -104,20 +83,19 @@ export class CondPagamentosListaComponent implements OnInit {
       { field: 'datagravacao', header: 'Data Gravação', width: '170px', type: 'date', data: true, format: `dd/MM/yyyy H:mm` },
       { field: 'emailusuario', header: 'Usuário Gravação', width: '190px', type: 'text' }
     ];
-
   }
 
-
   changePage(event: LazyLoadEvent) {
-    this.filtro.pagina = event.first / event.rows;
-    this.filtro.itensPorPagina = event?.rows;
+    this.filtro.pagina = event.first / event.rows; // Atualiza a página no filtro
+    this.filtro.itensPorPagina = event.rows; // Atualiza itens por página no filtro
     this.carregarCondPagamento();
   }
 
-
   carregarCondPagamento() {
     this.spinner.show();
-    this.condService.listarComFiltro(this.filtro)
+    // Preencher o filtro com valores apropriados, como status
+    this.filtro.status = this.status;
+    this.condService.listarComFiltro(this.filtro) // Passando o objeto filtro completo
       .then(obj => {
         this.condpagamentos = obj.content;
         this.totalRegistros = obj.totalElements;
@@ -130,76 +108,13 @@ export class CondPagamentosListaComponent implements OnInit {
       });
   }
 
-
   AlternarLista() {
-    if (this.filtro.status === 'Ativos') {
-      this.filtro.status = 'Inativos';
-    } else {
-      this.filtro.status = 'Ativos';
-    }
+    this.status = this.status === 'Ativos' ? 'Inativos' : 'Ativos';
     this.carregarCondPagamento();
-  }
-
-  searchData(tipo: string) {
-
-    if (tipo === 'datagravacaode') {
-      if (this.datagravacaode && this.datagravacaode.length === 10) {
-        const dia = this.datagravacaode.substring(0, 2);
-        const mes = this.datagravacaode.substring(3, 5);
-        const ano = this.datagravacaode.substring(6, 10);
-        this.filtro.datagravacaode = ano + '-' + mes + '-' + dia;
-      } else {
-        this.filtro.datagravacaode = '';
-      }
-    }
-    if (tipo === 'datagravacaoate') {
-      if (this.datagravacaoate && this.datagravacaoate.length === 10) {
-        const dia = this.datagravacaoate.substring(0, 2);
-        const mes = this.datagravacaoate.substring(3, 5);
-        const ano = this.datagravacaoate.substring(6, 10);
-        this.filtro.datagravacaoate = ano + '-' + mes + '-' + dia;
-      } else {
-        this.filtro.datagravacaoate = '';
-      }
-    }
-    if (this.timeout) { clearTimeout(this.timeout); }
-    this.timeout = setTimeout(() => {
-      this.carregarCondPagamento();
-      this.FirstPage();
-    }, 800);
-  }
-
-  search(value: any) {
-    if (this.timeout) { clearTimeout(this.timeout); }
-    this.timeout = setTimeout(() => {
-      this.applySearch(value);
-    }, 800);
   }
 
   FirstPage() {
     this.paginator.changePage(0);
-  }
-
-
-  applySearch(value: any) {
-    this.blockBtnFilter = true;
-    if (
-      value.qty === null ||
-      value.qty === undefined
-    ) {
-      this.btnBlock();
-    } else {
-      this.filtroCondPagamento.filtro(value, this.filtro).then((obj) => {
-        this.filtro = obj;
-        this.carregarCondPagamento();
-        this.FirstPage();
-        this.btnBlock();
-      }).catch((erro) => {
-        this.spinner.hide();
-        this.btnBlock();
-        this.errorHandler.handle(erro);
-      });
-    }
   }
 
   btnBlock() {
@@ -211,16 +126,4 @@ export class CondPagamentosListaComponent implements OnInit {
   verifyFocus() {
     this.buttonFilter.nativeElement.focus();
   }
-
-  limparData(tipo: string) {
-    if (tipo === 'dataGravacao') {
-      this.filtro.datagravacaode = '';
-      this.filtro.datagravacaoate = '';
-      this.datagravacaode = '';
-      this.datagravacaoate = '';
-    }
-
-    this.carregarCondPagamento();
-  }
-
 }
