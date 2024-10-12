@@ -42,20 +42,36 @@
 
     <p-table
       #tabela
-      styleClass="p-datatable-striped p-datatable-gridlines"
-      [columns]="cols"
       [value]="formapagamentos"
+      [columns]="cols"
+      [globalFilterFields]="cols"
       [rowsPerPageOptions]="rowsPerPageTable"
-      [rowHover]="true"
-      [showCurrentPageReport]="true"
-      (onLazyLoad)="changePage($event)"
       selectionMode="single"
-      [reorderableColumns]="true"
-      [rows]="filtro.itensPorPagina"
-      [lazy]="true"
-      [totalRecords]="totalRegistros"
-      responsiveLayout="scroll"
+      [showCurrentPageReport]="true"
+      [rows]="10"
+      [currentPageReportTemplate]="messagePageReport"
+      [paginator]="true"
+      styleClass="p-datatable-striped p-datatable-gridlines"
+      [scrollable]="true"
     >
+      <ng-template pTemplate="caption">
+        <div class="flex flex-wrap">
+          <div class="col-12 md:col-6 lg:col-2">
+            <div class="col-12">
+              <input
+                class="responsivetable p-text-nowrap p-text-truncate"
+                pInputText
+                type="text"
+                (input)="tabela.filterGlobal($event.target.value, 'contains')"
+                placeholder="Pesquisa Global"
+                pTooltip="Pesquisa em todas colunas"
+                tooltipPosition="top"
+              />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th class="btnEditar">&nbsp;</th>
@@ -65,23 +81,34 @@
             [ngStyle]="{ 'min-width': cols.width }"
           >
             {{ cols.header }}
+            <p-sortIcon [field]="cols.field"></p-sortIcon>
+            <p-columnFilter
+              [type]="cols.type"
+              [field]="cols.field"
+              display="menu"
+              class="p-ml-auto"
+            ></p-columnFilter>
           </th>
-          <th style="min-width: 150px">Status</th>
         </tr>
       </ng-template>
 
-      <ng-template pTemplate="body" let-formaPagamento let-columns="columns" let-rowData>
+      <ng-template
+        pTemplate="body"
+        let-formapag
+        let-columns="columns"
+        let-rowData
+      >
         <tr [pSelectableRow]="rowData">
           <td class="btnEditar">
             <button
               pButton
               pRipple
               type="button"
-              class="p-button-text p-button-primary"
-              icon="fas fa-pen"
+              class="p-button-raised"
               pTooltip="Editar"
+              icon="pi pi-pencil"
               tooltipPosition="top"
-              [routerLink]="['/formapagamentos', formaPagamento.id]"
+              [routerLink]="['/formapagamentos', formapag.id]"
             ></button>
           </td>
           <td
@@ -101,24 +128,25 @@
                 : rowData[cols.field]
             }}
           </td>
-          <td>
-            {{ formaPagamento.status ? "Ativo" : "Inativo" }}
-          </td>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="summary">
-        <div class="flex flex-wrap justify-content-between flex-wrap card-container purple-container" (mouseenter)="verifyFocus()">
-          <div class="col-12 md:col-4 lg:col-5 flex align-items-center justify-content-start" (mouseenter)="verifyFocus()">
-          </div>
-
-          
+        <div>
+          <button
+            pButton
+            pRipple
+            class="p-button-raised p-button-primary"
+            icon="pi pi-times"
+            label="Limpar Filtros"
+            (click)="onClear()"
+          ></button>
         </div>
       </ng-template>
 
       <ng-template pTemplate="emptymessage" let-columns>
         <tr>
-          <td colspan="9">
+          <td>
             <p class="emptyMessage">Nenhum registro encontrado...</p>
           </td>
         </tr>

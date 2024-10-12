@@ -44,53 +44,53 @@ export class TipoFretesCadastroComponent implements OnInit {
       this.tipoFrete.status = true;
     }
   }
-  get editando(){
+  get editando() {
     return Boolean(this.tipoFrete.id);
   }
 
   salvar(form: NgForm) {
-    if(this.editando){
+    if (this.editando) {
       this.atualizarTipoFrete(form);
-    }else {
-      this.atualizarTipoFrete(form);
+    } else {
+      this.adicionarTipoFrete(form);
     }
-   }
-
-  adicionarTipoFrete(form: NgForm){
-    this.salvando = true;
-    this.tipoService.adicionar(this.tipoFrete)
-    .then((obj) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Tipo de Frete',
-        detail: `${obj.descricao}, adicionado com sucesso!`
-      });
-      this.salvando = false;
-      this.router.navigate(['/tipofretes']);
-    })
-    .catch((erro) => {
-      this.salvando = false;
-      this.erroHandler.handle(erro);
-    })
   }
 
-  atualizarTipoFrete(form: NgForm){
+  adicionarTipoFrete(form: NgForm) {
+    this.salvando = true;
+    this.tipoService.adicionar(this.tipoFrete)
+      .then((obj) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Tipo de Frete',
+          detail: `${obj.descricao}, adicionado com sucesso!`
+        });
+        this.salvando = false;
+        this.router.navigate(['/tipofretes']);
+      })
+      .catch((erro) => {
+        this.salvando = false;
+        this.erroHandler.handle(erro);
+      })
+  }
+
+  atualizarTipoFrete(form: NgForm) {
     this.salvando = true;
     this.tipoService.atualizar(this.tipoFrete)
-    .then((obj) => {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Tipo de Frete',
-        detail: `${obj.descricao}, atualizado com sucesso!`
-      });
-      this.atualizarTituloEdicao();
-      this.salvando = false;
-      this.router.navigate(['/tipofretes']);
-    })
-    .catch((erro) => {
-      this.salvando = false;
-      this.erroHandler.handle(erro);
-    })
+      .then((obj) => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Tipo de Frete',
+          detail: `${obj.descricao}, atualizado com sucesso!`
+        });
+        this.atualizarTituloEdicao();
+        this.salvando = false;
+        this.router.navigate(['/tipofretes']);
+      })
+      .catch((erro) => {
+        this.salvando = false;
+        this.erroHandler.handle(erro);
+      })
   }
 
   carregarTipoFrete(id: number) {

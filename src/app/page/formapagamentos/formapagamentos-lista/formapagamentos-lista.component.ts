@@ -19,26 +19,13 @@ import { FiltrosFormaPagamentos } from 'src/app/core/models/filtros.model';
 export class FormaPagamentosListaComponent implements OnInit {
 
   @ViewChild('tabela') table: Table;
-  @ViewChild('paginator') paginator: Paginator;
-  @ViewChild('buttonFilter') buttonFilter: ElementRef;
-
-  rowsPerPageTable: number[] = [10, 25, 50, 100, 200];
+  rowsPerPageTable: number[] = [10, 25, 50, 100, 200, 500];
   formapagamentos = [];
-  sinal = true;
-  status = 'Ativo';
   cols: any[];
-  salvando: boolean;
-  totalRegistros = 0;
-  messageDrop = 'Nenhum resultado encontrado...';
-  valorTooltip = 'Inativos';
   messagePageReport = 'Mostrando {first} a {last} de {totalRecords} registros';
   items: MenuItem[];
-  timeout: any;
-  totalPages = 0;
-  first = 1;
-  blockBtnFilter = false;
-
-  filtro: FiltrosFormaPagamentos = new FiltrosFormaPagamentos(); // Inicializando o filtro
+  sinal = true;
+  valorTooltip = 'Inativos';
 
   constructor(
     private title: Title,
@@ -50,81 +37,70 @@ export class FormaPagamentosListaComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) { }
 
-  onClear() {
-    this.cols.forEach(col => {
-      if (col.qty !== null && col.qty !== undefined) {
-        col.qty = null;
-      }
-    });
-    this.carregarFormaPagamento();
-  }
-
-  refresh() {
-    this.carregarFormaPagamento();
-  }
-
   ngOnInit() {
-    this.conf.ripple = true;
-    this.title.setTitle('Forma de Pagamento');
-    this.carregarFormaPagamento();
-
+    this.title.setTitle('Lista de Moldes');
     this.items = [
       {
-        label: 'Ativo / Inativo',
+        label: 'Ativo/Inativo',
         icon: 'pi pi-sort-alt',
         command: () => {
           this.AlternarLista();
-        },
+        }
       }
-    ];
+    ]
+    this.carregarCondPagamento();
 
     this.cols = [
-      { field: 'id', header: 'Código', width: '130px', type: 'numeric' },
-      { field: 'descricao', header: 'Descrição', width: '250px', type: 'text' },
-      { field: 'datagravacao', header: 'Data Gravação', width: '170px', type: 'date', data: true, format: `dd/MM/yyyy H:mm` },
-      { field: 'emailusuario', header: 'Usuário Gravação', width: '190px', type: 'text' }
-    ];
+      { field: 'id', header: 'Código', width: '100px', type: 'numeric', key: 1 },
+      { field: 'descricao', header: 'Nome', width: '150px', type: 'text', key: 2 },
+      { field: 'datagravacao', header: 'Data Gravação', width: '100px', data: true, format: `dd/MM/yyyy H:mm`, type: 'date', key: 4 },
+      { field: 'loginusuario', header: 'Usuário Gravação', width: '150px', type: 'text', key: 5 },
+      { field: 'statusformatado', header: 'Status', width: '150px', type: 'text', key: 6 }
+    ]
   }
 
-  changePage(event: LazyLoadEvent) {
-    this.filtro.pagina = event.first / event.rows; // Atualiza a página no filtro
-    this.filtro.itensPorPagina = event.rows; // Atualiza itens por página no filtro
-    this.carregarFormaPagamento();
-  }
 
-  carregarFormaPagamento() {
+  carregarCondPagamento() {
     this.spinner.show();
-    // Preencher o filtro com valores apropriados, como status
-    this.filtro.status = this.status;
-    this.formaService.listarComFiltro(this.filtro) // Passando o objeto filtro completo
-      .then(obj => {
-        this.formapagamentos = obj.content;
-        this.totalRegistros = obj.totalElements;
-        this.totalPages = obj.totalPages;
+    this.formaService.listar()
+      .then((obj) => {
+        this.formapagamentos = obj;
+        this.formapagamentos = this.validationService.formataAtivoeInativo(this.formapagamentos);
         this.spinner.hide();
       })
       .catch((erro) => {
         this.spinner.hide();
         this.errorHandler.handle(erro);
-      });
+      })
   }
 
   AlternarLista() {
-    this.status = this.status === 'Ativos' ? 'Inativos' : 'Ativos';
-    this.carregarFormaPagamento();
+    this.spinner.show();
+    const valor = this.sinal ? '/inativos' : '/';
+    if (this.sinal === true) {
+      this.valorTooltip = 'Ativos';
+      this.sinal = false;
+    } else {
+      this.valorTooltip = 'Inativos';
+      this.sinal = true;
+    }
+    this.formaService.AlternarLista(valor)
+      .then((obj) => {
+        this.formapagamentos = obj;
+        this.formapagamentos = this.validationService.formataAtivoeInativo(this.formapagamentos);
+        this.spinner.hide();
+      })
+      .catch((erro) => {
+        this.spinner.hide();
+        this.errorHandler.handle(erro);
+      })
   }
 
-  FirstPage() {
-    this.paginator.changePage(0);
+  refresh() {
+    this.carregarCondPagamento();
   }
 
-  btnBlock() {
-    setTimeout(() => {
-      this.blockBtnFilter = false;
-    }, 680);
-  }
-
-  verifyFocus() {
-    this.buttonFilter.nativeElement.focus();
+  onClear() {
+    this.table.clear();
   }
 }

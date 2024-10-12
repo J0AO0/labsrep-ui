@@ -42,53 +42,53 @@ export class FormaPagamentosCadastroComponent implements OnInit {
       this.formaPagamento.status = true;
     }
   }
-  get editando(){
+  get editando() {
     return Boolean(this.formaPagamento.id);
   }
 
   salvar(form: NgForm) {
-    if(this.editando){
+    if (this.editando) {
       this.atualizarFormaPagamento(form);
-    }else {
-      this.atualizarFormaPagamento(form);
+    } else {
+      this.adicionarFormaPagamento(form);
     }
-   }
-
-  adicionarFormaPagamento(form: NgForm){
-    this.salvando = true;
-    this.formaService.adicionar(this.formaPagamento)
-    .then((obj) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Forma de Pagamento',
-        detail: `${obj.descricao}, adicionado com sucesso!`
-      });
-      this.salvando = false;
-      this.router.navigate(['/formapagamentos']);
-    })
-    .catch((erro) => {
-      this.salvando = false;
-      this.erroHandler.handle(erro);
-    })
   }
 
-  atualizarFormaPagamento(form: NgForm){
+  adicionarFormaPagamento(form: NgForm) {
+    this.salvando = true;
+    this.formaService.adicionar(this.formaPagamento)
+      .then((obj) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Forma de Pagamento',
+          detail: `${obj.descricao}, adicionado com sucesso!`
+        });
+        this.salvando = false;
+        this.router.navigate(['/formapagamentos']);
+      })
+      .catch((erro) => {
+        this.salvando = false;
+        this.erroHandler.handle(erro);
+      })
+  }
+
+  atualizarFormaPagamento(form: NgForm) {
     this.salvando = true;
     this.formaService.atualizar(this.formaPagamento)
-    .then((obj) => {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Forma de Pagamento',
-        detail: `${obj.descricao}, atualizado com sucesso!`
-      });
-      this.atualizarTituloEdicao();
-      this.salvando = false;
-      this.router.navigate(['/formapagamentos']);
-    })
-    .catch((erro) => {
-      this.salvando = false;
-      this.erroHandler.handle(erro);
-    })
+      .then((obj) => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Forma de Pagamento',
+          detail: `${obj.descricao}, atualizado com sucesso!`
+        });
+        this.atualizarTituloEdicao();
+        this.salvando = false;
+        this.router.navigate(['/formapagamentos']);
+      })
+      .catch((erro) => {
+        this.salvando = false;
+        this.erroHandler.handle(erro);
+      })
   }
 
   carregarFormaPagamento(id: number) {

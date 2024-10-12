@@ -42,53 +42,53 @@ export class CondPagamentosCadastroComponent implements OnInit {
       this.condPagamento.status = true;
     }
   }
-  get editando(){
+  get editando() {
     return Boolean(this.condPagamento.id);
   }
 
   salvar(form: NgForm) {
-    if(this.editando){
+    if (this.editando) {
       this.atualizarCondPagamento(form);
-    }else {
-      this.atualizarCondPagamento(form);
+    } else {
+      this.adicionarCondPagamento(form);
     }
-   }
-
-  adicionarCondPagamento(form: NgForm){
-    this.salvando = true;
-    this.condService.adicionar(this.condPagamento)
-    .then((obj) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Condição de Pagamento',
-        detail: `${obj.descricao}, adicionado com sucesso!`
-      });
-      this.salvando = false;
-      this.router.navigate(['/condpagamentos']);
-    })
-    .catch((erro) => {
-      this.salvando = false;
-      this.erroHandler.handle(erro);
-    })
   }
 
-  atualizarCondPagamento(form: NgForm){
+  adicionarCondPagamento(form: NgForm) {
+    this.salvando = true;
+    this.condService.adicionar(this.condPagamento)
+      .then((obj) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Condição de Pagamento',
+          detail: `${obj.descricao}, adicionado com sucesso!`
+        });
+        this.salvando = false;
+        this.router.navigate(['/condpagamentos']);
+      })
+      .catch((erro) => {
+        this.salvando = false;
+        this.erroHandler.handle(erro);
+      })
+  }
+
+  atualizarCondPagamento(form: NgForm) {
     this.salvando = true;
     this.condService.atualizar(this.condPagamento)
-    .then((obj) => {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Condição de Pagamento',
-        detail: `${obj.descricao}, atualizado com sucesso!`
-      });
-      this.atualizarTituloEdicao();
-      this.salvando = false;
-      this.router.navigate(['/condpagamentos']);
-    })
-    .catch((erro) => {
-      this.salvando = false;
-      this.erroHandler.handle(erro);
-    })
+      .then((obj) => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Condição de Pagamento',
+          detail: `${obj.descricao}, atualizado com sucesso!`
+        });
+        this.atualizarTituloEdicao();
+        this.salvando = false;
+        this.router.navigate(['/condpagamentos']);
+      })
+      .catch((erro) => {
+        this.salvando = false;
+        this.erroHandler.handle(erro);
+      })
   }
 
   carregarCondPagamento(id: number) {
