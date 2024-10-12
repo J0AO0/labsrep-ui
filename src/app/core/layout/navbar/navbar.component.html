@@ -137,6 +137,42 @@
       label="Produto"
       routerLink="/produtos"
     ></button>
+    <!-- Menu de Condição Pagamento Inicio -->
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded btn-menu"
+      routerLinkActive="ativo"
+      icon="fas fa-users-cog"
+      (click)="menu = false"
+      ngForm="!auth.temPermissao('R_COND')"
+      label="Condição de Pagamento"
+      routerLink="/condpagamentos"
+    ></button>
+        <!-- Menu de Forma de Pagamento Inicio -->
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded btn-menu"
+      routerLinkActive="ativo"
+      icon="fas fa-users-cog"
+      (click)="menu = false"
+      ngForm="!auth.temPermissao('R_FORMA')"
+      label="Forma de Pagamento"
+      routerLink="/formapagamentos"
+    ></button>
+            <!-- Menu de Tipo de Frete Inicio -->
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded btn-menu"
+      routerLinkActive="ativo"
+      icon="fas fa-users-cog"
+      (click)="menu = false"
+      ngForm="!auth.temPermissao('R_FRETE')"
+      label="Tipo de Frete"
+      routerLink="/tipofretes"
+    ></button>
   </p-accordion>
   <!-- Fim  -->
 

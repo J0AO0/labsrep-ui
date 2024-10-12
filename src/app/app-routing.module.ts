@@ -24,6 +24,18 @@ const routes: Routes = [
     path: 'produtos', loadChildren: () =>
     import('./page/produtos/produtos.module').then(m =>  m.ProdutoModule)
   },
+  {
+    path: 'condpagamentos', loadChildren: () =>
+    import('./page/condpagamentos/condpagamentos.module').then(m =>  m.CondPagamentosModule)
+  },
+  {
+    path: 'formapagamentos', loadChildren: () =>
+    import('./page/formapagamentos/formapagamentos.module').then(m =>  m.FormaPagamentosModule)
+  },
+  {
+    path: 'tipofretes', loadChildren: () =>
+    import('./page/tipofretes/tipofretes.module').then(m =>  m.TipoFretesModule)
+  },
  // { path: 'alterarsenha', component: AlterarSenhaComponent },
 
   { path: 'nao-autorizado', component: NaoAutorizadoComponent },

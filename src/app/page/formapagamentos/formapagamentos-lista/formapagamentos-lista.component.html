@@ -1,6 +1,6 @@
 <main>
   <p-card styleClass="card-adjust p-mt-5 p-mx-3">
-    <h4>PRODUTOS</h4>
+    <h4>Forma de Pagamentos</h4>
     <div class="flex justify-content-between mb-2">
       <div class="flex justify-content-start mb-2">
         <div>
@@ -12,7 +12,7 @@
             icon="pi pi-plus"
             pTooltip="Novo"
             tooltipPosition="top"
-            routerLink="/produtos/novo"
+            routerLink="/formapagamentos/novo"
           ></button>
         </div>
         <div>
@@ -44,13 +44,13 @@
       #tabela
       styleClass="p-datatable-striped p-datatable-gridlines"
       [columns]="cols"
-      [value]="produtos"
+      [value]="formapagamentos"
       [rowsPerPageOptions]="rowsPerPageTable"
       [rowHover]="true"
       [showCurrentPageReport]="true"
       (onLazyLoad)="changePage($event)"
       selectionMode="single"
-      [(selection)]="selectedProduto"
+      [(selection)]="selectedFormaPagamento"
       [reorderableColumns]="true"
       [rows]="filtro.itensPorPagina"
       [lazy]="true"
@@ -211,7 +211,7 @@
 
       <ng-template
         pTemplate="body"
-        let-produto
+        let-formaPagamento
         let-columns="columns"
         let-rowData
       >
@@ -225,17 +225,7 @@
               icon="fas fa-pen"
               pTooltip="Editar"
               tooltipPosition="top"
-              [routerLink]="['/produtos', produto.id]"
-            ></button>
-            <button
-              pButton
-              pRipple
-              type="button"
-              class="p-button-text p-button-primary"
-              pTooltip="Adiconar Imagem"
-              icon="pi pi-camera"
-              tooltipPosition="top"
-              (click)="onImageButtonClick(produto.id, $event)"
+              [routerLink]="['/formapagamentos', formaPagamento.id]"
             ></button>
           </td>
           <td
@@ -256,7 +246,7 @@
             }}
           </td>
           <td>
-            {{ produto.status ? "Ativo" : "Inativo" }}
+            {{ formaPagamento.status ? "Ativo" : "Inativo" }}
           </td>
         </tr>
       </ng-template>
@@ -317,47 +307,3 @@
     </p-table>
   </p-card>
 </main>
-
-
-<p-overlayPanel #imagem>
-  <div class="p-grid p-fluid">
-    <div class="p-col-12 p-md-6">
-      <h3>Upload de Foto do Produto</h3>
-
-      <form (ngSubmit)="onSubmit()" #produtoForm="ngForm">
-        <div class="p-field">
-          <label for="descricao">Descrição da Foto</label>
-          <input
-            type="text"
-            pInputText
-            [(ngModel)]="descricao"
-            name="descricao"
-            required
-          />
-        </div>
-
-        <div class="p-field">
-          <label for="foto">Selecione a Foto</label>
-          <p-fileUpload
-            name="file"
-            customUpload="true"
-            accept="image/*"
-            mode="basic"
-            auto="true"
-            chooseLabel="Escolher Foto"
-            (onSelect)="onFileSelect($event)"
-          ></p-fileUpload>
-        </div>
-
-        <div class="p-field">
-          <button
-            pButton
-            type="submit"
-            label="Salvar Foto"
-            icon="pi pi-save"
-          ></button>
-        </div>
-      </form>
-    </div>
-  </div>
-</p-overlayPanel>

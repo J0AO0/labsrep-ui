@@ -17,6 +17,10 @@ import { PaginaNaoEncontradaComponent } from "./layout/pagina-nao-encontrada/pag
 import { AuthService } from "../page/seguranca/auth.service";
 import { EmpresasService } from "../page/empresas/empresas.service";
 import { CategoriasService } from "../page/categorias/categorias.service";
+import { ProdutoService } from "../page/produtos/produtos.service";
+import { CondPagamentosService } from "../page/condpagamentos/condpagamentos.service";
+import { FormaPagamentosService } from "../page/formapagamentos/formapagamentos.service";
+import { TipoFretesService } from "../page/tipofretes/tipofretes.service";
 
 @NgModule({
   declarations: [
@@ -41,7 +45,11 @@ import { CategoriasService } from "../page/categorias/categorias.service";
     ValidationService,
     UsuariosService,
     EmpresasService,
-    CategoriasService
+    CategoriasService,
+    ProdutoService,
+    CondPagamentosService,
+    FormaPagamentosService,
+    TipoFretesService
 
   ],
   exports: [

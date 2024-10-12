@@ -63,3 +63,36 @@ export class FiltroUsuarios {
   datagravacaoate: string;
   emailusuario: string;
 }
+
+export class FiltrosCondPagamentos {
+  pagina: number;
+  itensPorPagina: number;
+  id: string;
+  descricao: string;
+  datagravacaode: string;
+  datagravacaoate: string;
+  emailusuario: string;
+  status: string;
+}
+
+export class FiltrosFormaPagamentos {
+  pagina: number;
+  itensPorPagina: number;
+  id: string;
+  descricao: string;
+  datagravacaode: string;
+  datagravacaoate: string;
+  emailusuario: string;
+  status: string;
+}
+
+export class FiltrosTipoFretes {
+  pagina: number;
+  itensPorPagina: number;
+  id: string;
+  descricao: string;
+  datagravacaode: string;
+  datagravacaoate: string;
+  emailusuario: string;
+  status: string;
+}
