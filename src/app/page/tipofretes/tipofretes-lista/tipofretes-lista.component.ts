@@ -8,7 +8,6 @@ import { ValidationService } from 'src/app/core/services/validation.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
-import { FiltrosTipoFretes } from 'src/app/core/models/filtros.model';
 import { TipoFretesService } from '../tipofretes.service';
 
 @Component({
@@ -26,6 +25,7 @@ export class TipoFretesListaComponent implements OnInit {
   items: MenuItem[];
   sinal = true;
   valorTooltip = 'Inativos';
+  globalSearchValue: string = '';
 
   constructor(
     private title: Title,
@@ -38,7 +38,7 @@ export class TipoFretesListaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.title.setTitle('Lista de Moldes');
+    this.title.setTitle('Lista de Tipo Fretes');
     this.items = [
       {
         label: 'Ativo/Inativo',
@@ -47,7 +47,7 @@ export class TipoFretesListaComponent implements OnInit {
           this.AlternarLista();
         }
       }
-    ]
+    ] 
     this.carregarCondPagamento();
 
     this.cols = [
@@ -100,7 +100,8 @@ export class TipoFretesListaComponent implements OnInit {
     this.carregarCondPagamento();
   }
 
-  onClear() {
-    this.table.clear();
+  onClear(): void {
+    this.globalSearchValue = ''; // Limpa o campo de pesquisa
+    this.table.filterGlobal('', 'contains'); 
   }
 }

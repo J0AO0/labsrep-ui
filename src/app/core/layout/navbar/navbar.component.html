@@ -24,7 +24,7 @@
     <p-avatar
       class="perfill"
       icon="pi pi-user"
-      styleClass="mr-2"
+      styleClass="mr-4"
       pTooltip="Perfil"
       tooltipPosition="left"
       [style]="{ 'background-color': '#5790ab', color: '#ffffff' }"
@@ -78,7 +78,7 @@
       tooltipPosition="right"
       (click)="showEmpresas()"
     >
-      <i style="color: rgb(133, 130, 130)" class="pi pi-external-link"></i>
+      <i style="color: rgb(255, 255, 255)" class="pi pi-external-link"></i>
       <span
         class="ml-2 p-text-nowrap p-text-truncate"
         pTooltip="{{ razaosocial }}"
@@ -102,24 +102,13 @@
       routerLink="/empresas"
     ></button>
 
-    <button
-      pButton
-      type="button"
-      class="ui-button-rounded btn-menu"
-      routerLinkActive="ativo"
-      icon="fas fa-users-cog"
-      (click)="menu = false"
-      [disabled]="!auth.temPermissao('R_USU')"
-      label="Usuários"
-      routerLink="/usuarios"
-    ></button>
     <!-- Menu de Categoria Inicio -->
     <button
       pButton
       type="button"
       class="ui-button-rounded btn-menu"
       routerLinkActive="ativo"
-      icon="fas fa-users-cog"
+      icon="fas fa-list"
       (click)="menu = false"
       ngForm="!auth.temPermissao('R_CAT')"
       label="Categoria"
@@ -131,7 +120,7 @@
       type="button"
       class="ui-button-rounded btn-menu"
       routerLinkActive="ativo"
-      icon="fas fa-users-cog"
+      icon="fas fa-bag-shopping"
       (click)="menu = false"
       ngForm="!auth.temPermissao('R_PROD')"
       label="Produto"
@@ -143,7 +132,7 @@
       type="button"
       class="ui-button-rounded btn-menu"
       routerLinkActive="ativo"
-      icon="fas fa-users-cog"
+      icon="fas fa-money-bill"
       (click)="menu = false"
       ngForm="!auth.temPermissao('R_COND')"
       label="Condição de Pagamento"
@@ -155,7 +144,7 @@
       type="button"
       class="ui-button-rounded btn-menu"
       routerLinkActive="ativo"
-      icon="fas fa-users-cog"
+      icon="fas fa-credit-card"
       (click)="menu = false"
       ngForm="!auth.temPermissao('R_FORMA')"
       label="Forma de Pagamento"
@@ -167,12 +156,24 @@
       type="button"
       class="ui-button-rounded btn-menu"
       routerLinkActive="ativo"
-      icon="fas fa-users-cog"
+      icon="fas fa-truck-fast"
       (click)="menu = false"
       ngForm="!auth.temPermissao('R_FRETE')"
       label="Tipo de Frete"
       routerLink="/tipofretes"
     ></button>
+
+    <button
+    pButton
+    type="button"
+    class="ui-button-rounded btn-menu"
+    routerLinkActive="ativo"
+    icon="fas fa-users-cog"
+    (click)="menu = false"
+    [disabled]="!auth.temPermissao('R_USU')"
+    label="Usuários"
+    routerLink="/usuarios"
+  ></button>
   </p-accordion>
   <!-- Fim  -->
 

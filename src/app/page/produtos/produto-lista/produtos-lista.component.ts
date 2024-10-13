@@ -63,7 +63,11 @@ export class ProdutosListarComponent implements OnInit {
   totalPages = 0;
   first = 1;
   blockBtnFilter = false;
+  displayProduto: boolean;
+  colsProduto = [];
+  loading: boolean;
   filtro = new FiltrosProdutos()
+  menu;
 
   constructor(
     private title: Title,
@@ -126,6 +130,13 @@ export class ProdutosListarComponent implements OnInit {
       { field: 'emailusuario', header: 'Usuário Gravação', width: '190px', type: 'text' }
     ];
 
+
+    this.colsProduto = [
+      { field: 'id', header: 'ID', width: '80px' },
+      { field: 'image', header: 'Imagem', width: '100px' },
+      { field: 'name', header: 'Produto', width: '300px' },
+      { field: 'preco', header: 'Preço', width: '250px', type: 'text' },
+    ];
   }
 
 
@@ -244,7 +255,7 @@ export class ProdutosListarComponent implements OnInit {
     this.carregarProduto();
   }
 
-  
+
   onSubmit() {
     if (this.selectedFile && this.descricao) {
       const formData = new FormData();
@@ -301,6 +312,28 @@ export class ProdutosListarComponent implements OnInit {
     this.produtoId = produtoId;
     this.imagem.show(event);  // Abre o OverlayPanel no local do clique
   }
+
+  showProduto(produtoId: number, event: Event) {
+    this.loading = true;
+    this.spinner.show();
+
+    this.prodService.produtoImagem(produtoId).subscribe({
+      next: (produtoBlob: Blob) => {
+        const produtoUrl = URL.createObjectURL(produtoBlob);
+        this.produtos = [{ imageUrl: produtoUrl }];
+
+        this.loading = false;
+        this.spinner.hide();
+        this.displayProduto = true;
+      },
+      error: (erro) => {
+        this.loading = false;
+        this.spinner.hide();
+        this.errorHandler.handle(erro);
+      }
+    });
+  }
+
 
 
 }

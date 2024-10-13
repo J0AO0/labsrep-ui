@@ -216,7 +216,7 @@
         let-rowData
       >
         <tr [pSelectableRow]="rowData">
-          <td class="btnEditar">
+          <td class="btnEditar flex align-items-center">
             <button
               pButton
               pRipple
@@ -231,11 +231,21 @@
               pButton
               pRipple
               type="button"
-              class="p-button-text p-button-primary"
-              pTooltip="Adiconar Imagem"
+              class="p-button-text p-button-primary ml-2"
+              pTooltip="Adicionar Imagem"
               icon="pi pi-camera"
               tooltipPosition="top"
               (click)="onImageButtonClick(produto.id, $event)"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              class="p-button-text p-button-primary ml-2"
+              pTooltip="Visualizar Imagem"
+              icon="pi pi-image"
+              tooltipPosition="top"
+              (click)="showProduto(produto.id, $event)"
             ></button>
           </td>
           <td
@@ -318,7 +328,6 @@
   </p-card>
 </main>
 
-
 <p-overlayPanel #imagem>
   <div class="p-grid p-fluid">
     <div class="p-col-12 p-md-6">
@@ -361,3 +370,41 @@
     </div>
   </div>
 </p-overlayPanel>
+
+<p-dialog
+  header="Produto Imagem"
+  [(visible)]="displayProduto"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="mydialog"
+  [style]="{ width: '400px' }"
+>
+  <ng-template pTemplate="content">
+    <!-- Exibe a imagem se existir -->
+    <div *ngIf="produtos.length > 0; else noImage">
+      <img
+        [src]="produtos[0].imageUrl"
+        alt="Imagem do Produto"
+        style="max-width: 50%"
+      />
+    </div>
+
+    <!-- Caso não tenha imagem, exibe uma mensagem alternativa -->
+    <ng-template #noImage>
+      <p>Imagem não disponível para este produto.</p>
+    </ng-template>
+  </ng-template>
+
+  <!-- Rodapé do diálogo -->
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="button"
+      label="Fechar"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="displayProduto = false"
+    ></button>
+  </ng-template>
+</p-dialog>

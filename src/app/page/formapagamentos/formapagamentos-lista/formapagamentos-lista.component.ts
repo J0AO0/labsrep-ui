@@ -26,6 +26,8 @@ export class FormaPagamentosListaComponent implements OnInit {
   items: MenuItem[];
   sinal = true;
   valorTooltip = 'Inativos';
+  globalSearchValue: string = '';
+
 
   constructor(
     private title: Title,
@@ -38,7 +40,7 @@ export class FormaPagamentosListaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.title.setTitle('Lista de Moldes');
+    this.title.setTitle('Lista de Formas de Pagamento');
     this.items = [
       {
         label: 'Ativo/Inativo',
@@ -100,7 +102,8 @@ export class FormaPagamentosListaComponent implements OnInit {
     this.carregarCondPagamento();
   }
 
-  onClear() {
-    this.table.clear();
+  onClear(): void {
+    this.globalSearchValue = ''; // Limpa o campo de pesquisa
+    this.table.filterGlobal('', 'contains'); 
   }
 }

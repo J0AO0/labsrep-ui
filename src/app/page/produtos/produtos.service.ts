@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from './../../../environments/environment';
@@ -19,10 +19,19 @@ export class ProdutoService {
     this.produtoUrl = `${environment.apiUrl}/produtos`;
   }
 
-    // Faz o upload da foto associando ao produto por ID
-    uploadFoto(produtoId: number, formData: FormData): Observable<any> {
-      return this.http.put(`${this.produtoUrl}/${produtoId}/foto`, formData);
-    }
+  // Faz o upload da foto associando ao produto por ID
+  uploadFoto(produtoId: number, formData: FormData): Observable<any> {
+    return this.http.put(`${this.produtoUrl}/${produtoId}/foto`, formData);
+  }
+
+  produtoImagem(produtoId: number): Observable<Blob> {
+    const headers = new HttpHeaders({ 'Accept': 'image/jpeg' }); // Ou outro tipo de mídia aceito
+
+    return this.http.get(`${this.produtoUrl}/${produtoId}/fotos`, {
+      headers: headers,
+      responseType: 'blob'  // Espera receber um blob (imagem)
+    });
+  }
 
 
 
