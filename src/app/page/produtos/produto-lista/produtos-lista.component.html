@@ -216,7 +216,7 @@
         let-rowData
       >
         <tr [pSelectableRow]="rowData">
-          <td class="btnEditar flex align-items-center">
+          <td class="btnEditar">
             <button
               pButton
               pRipple
@@ -231,8 +231,8 @@
               pButton
               pRipple
               type="button"
-              class="p-button-text p-button-primary ml-2"
-              pTooltip="Adicionar Imagem"
+              class="p-button-text p-button-primary"
+              pTooltip="Adiconar Imagem"
               icon="pi pi-camera"
               tooltipPosition="top"
               (click)="onImageButtonClick(produto.id, $event)"
@@ -241,7 +241,7 @@
               pButton
               pRipple
               type="button"
-              class="p-button-text p-button-primary ml-2"
+              class="p-button-text p-button-primary"
               pTooltip="Visualizar Imagem"
               icon="pi pi-image"
               tooltipPosition="top"
@@ -381,14 +381,22 @@
   [style]="{ width: '400px' }"
 >
   <ng-template pTemplate="content">
-    <!-- Exibe a imagem se existir -->
-    <div *ngIf="produtos.length > 0; else noImage">
+    <!-- Exibe o spinner enquanto estiver carregando -->
+    <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+
+    <!-- Exibe a imagem se ela existir e o carregamento estiver concluído -->
+    <div *ngIf="!loading && !imageError && produtoSelecionadoComImagem?.imageUrl; else noImage">
       <img
-        [src]="produtos[0].imageUrl"
+        [src]="produtoSelecionadoComImagem.imageUrl"
         alt="Imagem do Produto"
         style="max-width: 50%"
       />
     </div>
+
+    <!-- Exibe a mensagem de erro caso não seja possível carregar a imagem -->
+    <p *ngIf="imageError" class="error-message">
+      Erro ao carregar a imagem do produto. Tente novamente mais tarde.
+    </p>
 
     <!-- Caso não tenha imagem, exibe uma mensagem alternativa -->
     <ng-template #noImage>

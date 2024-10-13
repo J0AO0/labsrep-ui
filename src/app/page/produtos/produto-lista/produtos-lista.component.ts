@@ -34,6 +34,8 @@ export class ProdutosListarComponent implements OnInit {
   selectedFile: File | null = null;
   idProduto: number;
   produtoId: any
+  produtoSelecionadoComImagem: any = null;  // Produto com imagem selecionada
+  imageError: boolean = false;  // Nova variável para controlar o erro de imagem
 
   @ViewChild('tabela') table: Table;
   @ViewChild('paginator') paginator: Paginator;
@@ -315,12 +317,18 @@ export class ProdutosListarComponent implements OnInit {
 
   showProduto(produtoId: number, event: Event) {
     this.loading = true;
+    this.imageError = false;  // Reseta o erro antes de tentar carregar
     this.spinner.show();
 
     this.prodService.produtoImagem(produtoId).subscribe({
       next: (produtoBlob: Blob) => {
         const produtoUrl = URL.createObjectURL(produtoBlob);
-        this.produtos = [{ imageUrl: produtoUrl }];
+
+        // Mantém os dados do produto selecionado e adiciona a imagem
+        this.produtoSelecionadoComImagem = {
+          ...this.produtos.find(p => p.id === produtoId),
+          imageUrl: produtoUrl
+        };
 
         this.loading = false;
         this.spinner.hide();
@@ -328,12 +336,11 @@ export class ProdutosListarComponent implements OnInit {
       },
       error: (erro) => {
         this.loading = false;
+        this.imageError = true;  // Sinaliza que houve um erro no carregamento da imagem
         this.spinner.hide();
         this.errorHandler.handle(erro);
       }
     });
   }
-
-
 
 }
