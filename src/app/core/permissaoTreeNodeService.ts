@@ -10,89 +10,89 @@ export class PermissaoTreeNodeService {
   permissaoTreeNode(selected: any, permissao: any) {
     for (const i of Object.keys(selected)) {
       switch (selected[i].data) {
-        // Permissão em Atendimentos---------------------------------
-        case 'atendimentosCriar':
-          console.log('existe atendimento');
+        // Permissão em categorias---------------------------------
+        case 'categoriasCriar':
+          console.log('existe categoria');
           permissao[0].permission.create = true;
           break;
-        case 'atendimentosVisualizar':
+        case 'categoriasVisualizar':
           permissao[0].permission.read = true;
           break;
-        case 'atendimentosEditar':
+        case 'categoriasEditar':
           permissao[0].permission.update = true;
           break;
-        case 'atendimentosStatus':
+        case 'categoriasStatus':
           permissao[0].permission.status = true;
           break;
-        case 'atendimentosExcluir':
+        case 'categoriasExcluir':
           permissao[0].permission.delete = true;
           break;
 
-        // Permissão em Convenios---------------------------------
-        case 'conveniosCriar':
+        // Permissão em pedidos---------------------------------
+        case 'pedidosCriar':
           permissao[1].permission.create = true;
           break;
-        case 'conveniosVisualizar':
+        case 'pedidosVisualizar':
           permissao[1].permission.read = true;
           break;
-        case 'conveniosEditar':
+        case 'pedidosEditar':
           permissao[1].permission.update = true;
           break;
-        case 'conveniosStatus':
+        case 'pedidosStatus':
           permissao[1].permission.status = true;
           break;
-        case 'conveniosExcluir':
+        case 'pedidosExcluir':
           permissao[1].permission.delete = true;
           break;
 
-        // Permissão em Exames---------------------------------
-        case 'examesCriar':
+        // Permissão em produtos---------------------------------
+        case 'produtosCriar':
           permissao[2].permission.create = true;
           break;
-        case 'examesVisualizar':
+        case 'produtosVisualizar':
           permissao[2].permission.read = true;
           break;
-        case 'examesEditar':
+        case 'produtosEditar':
           permissao[2].permission.update = true;
           break;
-        case 'examesStatus':
+        case 'produtosStatus':
           permissao[2].permission.status = true;
           break;
-        case 'examesExcluir':
+        case 'produtosExcluir':
           permissao[2].permission.delete = true;
           break;
 
-        // Permissão em Pacientes---------------------------------
-        case 'pacientesCriar':
+        // Permissão em condPagamento---------------------------------
+        case 'condPagamentoCriar':
           permissao[3].permission.create = true;
           break;
-        case 'pacientesVisualizar':
+        case 'condPagamentoVisualizar':
           permissao[3].permission.read = true;
           break;
-        case 'pacientesEditar':
+        case 'condPagamentoEditar':
           permissao[3].permission.update = true;
           break;
-        case 'pacientesStatus':
+        case 'condPagamentoStatus':
           permissao[3].permission.status = true;
           break;
-        case 'pacientesExcluir':
+        case 'condPagamentoExcluir':
           permissao[3].permission.delete = true;
           break;
 
-        // Permissão em Usuarios---------------------------------
-        case 'usuariosCriar':
+        // Permissão em tipoFrete---------------------------------
+        case 'tipoFreteCriar':
           permissao[4].permission.create = true;
           break;
-        case 'usuariosVisualizar':
+        case 'tipoFreteVisualizar':
           permissao[4].permission.read = true;
           break;
-        case 'usuariosEditar':
+        case 'tipoFreteEditar':
           permissao[4].permission.update = true;
           break;
-        case 'usuariosStatus':
+        case 'tipoFreteStatus':
           permissao[4].permission.status = true;
           break;
-        case 'usuariosExcluir':
+        case 'tipoFreteExcluir':
           permissao[4].permission.delete = true;
           break;
 
@@ -118,20 +118,20 @@ export class PermissaoTreeNodeService {
           permissao[6].permission.delete = true;
           break;
 
-        // Permissão em Patrimonios---------------------------------
-        case 'patrimoniosCriar':
+        // Permissão em formaPagamento---------------------------------
+        case 'formaPagamentoCriar':
           permissao[7].permission.create = true;
           break;
-        case 'patrimoniosVisualizar':
+        case 'formaPagamentoVisualizar':
           permissao[7].permission.read = true;
           break;
-        case 'patrimoniosEditar':
+        case 'formaPagamentoEditar':
           permissao[7].permission.update = true;
           break;
-        case 'patrimoniosStatus':
+        case 'formaPagamentoStatus':
           permissao[7].permission.status = true;
           break;
-        case 'patrimoniosExcluir':
+        case 'formaPagamentoExcluir':
           permissao[7].permission.delete = true;
           break;
       }
@@ -142,35 +142,35 @@ export class PermissaoTreeNodeService {
     // Início de Permissao de Atendimentos--------------------------------------------------------------
     if (permissao[0].permission.create !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'atendimentosCriar') {
+        if (item.data === 'categoriasCriar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[0].permission.read !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'atendimentosVisualizar') {
+        if (item.data === 'categoriasVisualizar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[0].permission.update !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'atendimentosEditar') {
+        if (item.data === 'categoriasEditar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[0].permission.status !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'atendimentosStatus') {
+        if (item.data === 'categoriasStatus') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[0].permission.status !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'atendimentosExcluir') {
+        if (item.data === 'categoriasExcluir') {
           selectedpermissao.splice(index, 1);
         }
       });
@@ -183,45 +183,45 @@ export class PermissaoTreeNodeService {
       permissao[0].permission.delete !== true
     ) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'atendimentos') {
+        if (item.data === 'categorias') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     // Fim permissao de Atendimentos -------------------------------------------------------------------
 
-    // Início de Permissao de Convenios--------------------------------------------------------------
+    // Início de Permissao de pedidos--------------------------------------------------------------
     if (permissao[1].permission.create !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'conveniosCriar') {
+        if (item.data === 'pedidosCriar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[1].permission.read !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'conveniosVisualizar') {
+        if (item.data === 'pedidosVisualizar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[1].permission.update !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'conveniosEditar') {
+        if (item.data === 'pedidosEditar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[1].permission.status !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'conveniosStatus') {
+        if (item.data === 'pedidosStatus') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[1].permission.delete !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'conveniosExcluir') {
+        if (item.data === 'pedidosExcluir') {
           selectedpermissao.splice(index, 1);
         }
       });
@@ -234,45 +234,45 @@ export class PermissaoTreeNodeService {
       permissao[1].permission.delete !== true
     ) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'convenios') {
+        if (item.data === 'pedidos') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     // Fim permissao de Convenios -------------------------------------------------------------------
 
-    // Início de Permissao de Exames--------------------------------------------------------------
+    // Início de Permissao de produtos--------------------------------------------------------------
     if (permissao[2].permission.create !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'examesCriar') {
+        if (item.data === 'produtosCriar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[2].permission.read !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'examesVisualizar') {
+        if (item.data === 'produtosVisualizar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[2].permission.update !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'examesEditar') {
+        if (item.data === 'produtosEditar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[2].permission.status !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'examesStatus') {
+        if (item.data === 'produtosStatus') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[2].permission.delete !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'examesExcluir') {
+        if (item.data === 'produtosExcluir') {
           selectedpermissao.splice(index, 1);
         }
       });
@@ -282,48 +282,48 @@ export class PermissaoTreeNodeService {
       permissao[2].permission.read !== true &&
       permissao[2].permission.update !== true &&
       permissao[2].permission.status !== true &&
-      permissao[2].permission.exames !== true
+      permissao[2].permission.produtos !== true
     ) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'exames') {
+        if (item.data === 'produtos') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
-    // Fim permissao de Exames -------------------------------------------------------------------
+    // Fim permissao de produtos -------------------------------------------------------------------
 
-    // Início de Permissao de Pacientes--------------------------------------------------------------
+    // Início de Permissao de condPagamento--------------------------------------------------------------
     if (permissao[3].permission.create !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'pacientesCriar') {
+        if (item.data === 'condPagamentoCriar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[3].permission.read !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'pacientesVisualizar') {
+        if (item.data === 'condPagamentoVisualizar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[3].permission.update !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'pacientesEditar') {
+        if (item.data === 'condPagamentoEditar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[3].permission.status !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'pacientesStatus') {
+        if (item.data === 'condPagamentoStatus') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[3].permission.delete !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'pacientesExcluir') {
+        if (item.data === 'condPagamentoExcluir') {
           selectedpermissao.splice(index, 1);
         }
       });
@@ -336,45 +336,45 @@ export class PermissaoTreeNodeService {
       permissao[3].permission.delete !== true
     ) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'pacientes') {
+        if (item.data === 'condPagamento') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
-    // Fim permissao de Pacientes -------------------------------------------------------------------
+    // Fim permissao de condPagamento -------------------------------------------------------------------
 
-    // Início de Permissao de Usuarios--------------------------------------------------------------
+    // Início de Permissao de tipoFretes--------------------------------------------------------------
     if (permissao[4].permission.create !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'usuariosCriar') {
+        if (item.data === 'tipoFretesCriar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[4].permission.read !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'usuariosVisualizar') {
+        if (item.data === 'tipoFretesVisualizar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[4].permission.update !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'usuariosEditar') {
+        if (item.data === 'tipoFretesEditar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[4].permission.status !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'usuariosStatus') {
+        if (item.data === 'tipoFretesStatus') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
     if (permissao[4].permission.delete !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'usuariosExcluir') {
+        if (item.data === 'tipoFretesExcluir') {
           selectedpermissao.splice(index, 1);
         }
       });
@@ -387,6 +387,57 @@ export class PermissaoTreeNodeService {
       permissao[4].permission.delete !== true
     ) {
       selectedpermissao.forEach((item, index) => {
+        if (item.data === 'tipoFretes') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    // Fim permissao de tipoFretes -------------------------------------------------------------------
+
+    // Início de Permissao de Usuarios--------------------------------------------------------------
+    if (permissao[5].permission.create !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'usuariosCriar') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (permissao[5].permission.read !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'usuariosVisualizar') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (permissao[5].permission.update !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'usuariosEditar') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (permissao[5].permission.status !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'usuariosStatus') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (permissao[5].permission.delete !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'usuariosExcluir') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (
+      permissao[5].permission.create !== true &&
+      permissao[5].permission.read !== true &&
+      permissao[5].permission.update !== true &&
+      permissao[5].permission.status !== true &&
+      permissao[5].permission.delete !== true
+    ) {
+      selectedpermissao.forEach((item, index) => {
         if (item.data === 'usuarios') {
           selectedpermissao.splice(index, 1);
         }
@@ -394,15 +445,16 @@ export class PermissaoTreeNodeService {
     }
     // Fim permissao de Usuarios -------------------------------------------------------------------
 
+
     // Início de Permissao de Relatórios------------------------------------------------
-    if (permissao[5].permission.read !== true) {
+    if (permissao[6].permission.read !== true) {
       selectedpermissao.forEach((item, index) => {
         if (item.data === 'relatoriosVisualizar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
-    if (permissao[5].permission.read !== true) {
+    if (permissao[6].permission.read !== true) {
       selectedpermissao.forEach((item, index) => {
         if (item.data === 'relatorios') {
           selectedpermissao.splice(index, 1);
@@ -412,88 +464,37 @@ export class PermissaoTreeNodeService {
     // Fim permissao de Relatórios------------------------------------------------
 
     // Início de Permissao de Empresas--------------------------------------------------------------
-    if (permissao[6].permission.create !== true) {
+    if (permissao[7].permission.create !== true) {
       selectedpermissao.forEach((item, index) => {
         if (item.data === 'empresasCriar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
-    if (permissao[6].permission.read !== true) {
+    if (permissao[7].permission.read !== true) {
       selectedpermissao.forEach((item, index) => {
         if (item.data === 'empresasVisualizar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
-    if (permissao[6].permission.update !== true) {
+    if (permissao[7].permission.update !== true) {
       selectedpermissao.forEach((item, index) => {
         if (item.data === 'empresasEditar') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
-    if (permissao[6].permission.status !== true) {
+    if (permissao[7].permission.status !== true) {
       selectedpermissao.forEach((item, index) => {
         if (item.data === 'empresasStatus') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
-    if (permissao[6].permission.delete !== true) {
-      selectedpermissao.forEach((item, index) => {
-        if (item.data === 'empresasExcluir') {
-          selectedpermissao.splice(index, 1);
-        }
-      });
-    }
-    if (
-      permissao[6].permission.create !== true &&
-      permissao[6].permission.read !== true &&
-      permissao[6].permission.update !== true &&
-      permissao[6].permission.status !== true &&
-      permissao[6].permission.delete !== true
-    ) {
-      selectedpermissao.forEach((item, index) => {
-        if (item.data === 'empresas') {
-          selectedpermissao.splice(index, 1);
-        }
-      });
-    }
-    // Fim permissao de Empresas -------------------------------------------------------------------
-
-    // Início de Permissao de Patrimonio--------------------------------------------------------------
-    if (permissao[7].permission.create !== true) {
-      selectedpermissao.forEach((item, index) => {
-        if (item.data === 'patrimoniosCriar') {
-          selectedpermissao.splice(index, 1);
-        }
-      });
-    }
-    if (permissao[7].permission.read !== true) {
-      selectedpermissao.forEach((item, index) => {
-        if (item.data === 'patrimoniosVisualizar') {
-          selectedpermissao.splice(index, 1);
-        }
-      });
-    }
-    if (permissao[7].permission.update !== true) {
-      selectedpermissao.forEach((item, index) => {
-        if (item.data === 'patrimoniosEditar') {
-          selectedpermissao.splice(index, 1);
-        }
-      });
-    }
-    if (permissao[7].permission.status !== true) {
-      selectedpermissao.forEach((item, index) => {
-        if (item.data === 'patrimoniosStatus') {
-          selectedpermissao.splice(index, 1);
-        }
-      });
-    }
     if (permissao[7].permission.delete !== true) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'patrimoniosExcluir') {
+        if (item.data === 'empresasExcluir') {
           selectedpermissao.splice(index, 1);
         }
       });
@@ -506,12 +507,63 @@ export class PermissaoTreeNodeService {
       permissao[7].permission.delete !== true
     ) {
       selectedpermissao.forEach((item, index) => {
-        if (item.data === 'patrimonios') {
+        if (item.data === 'empresas') {
           selectedpermissao.splice(index, 1);
         }
       });
     }
-    // Fim permissao de Patrimonios -------------------------------------------------------------------
+    // Fim permissao de Empresas -------------------------------------------------------------------
+
+    // Início de Permissao de tipoFrete--------------------------------------------------------------
+    if (permissao[8].permission.create !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'tipoFretesCriar') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (permissao[8].permission.read !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'tipoFretesVisualizar') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (permissao[8].permission.update !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'tipoFretesEditar') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (permissao[8].permission.status !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'tipoFretesStatus') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (permissao[8].permission.delete !== true) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'tipoFretesExcluir') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    if (
+      permissao[8].permission.create !== true &&
+      permissao[8].permission.read !== true &&
+      permissao[8].permission.update !== true &&
+      permissao[8].permission.status !== true &&
+      permissao[8].permission.delete !== true
+    ) {
+      selectedpermissao.forEach((item, index) => {
+        if (item.data === 'tipoFretes') {
+          selectedpermissao.splice(index, 1);
+        }
+      });
+    }
+    // Fim permissao de tipoFretes -------------------------------------------------------------------
 
     // Verificar Node de Cadastro-------------------------------------------------------------------
     if (
@@ -552,7 +604,12 @@ export class PermissaoTreeNodeService {
       permissao[7].permission.read !== true &&
       permissao[7].permission.update !== true &&
       permissao[7].permission.status !== true &&
-      permissao[7].permission.delete !== true
+      permissao[7].permission.delete !== true &&
+      permissao[8].permission.create !== true &&
+      permissao[8].permission.read !== true &&
+      permissao[8].permission.update !== true &&
+      permissao[8].permission.status !== true &&
+      permissao[8].permission.delete !== true
     ) {
       selectedpermissao.forEach((item, index) => {
         if (item.data === 'cadastroNode') {
