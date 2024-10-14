@@ -24,7 +24,7 @@
     <p-avatar
       class="perfill"
       icon="pi pi-user"
-      styleClass="mr-4"
+      styleClass="mr-2"
       pTooltip="Perfil"
       tooltipPosition="left"
       [style]="{ 'background-color': '#5790ab', color: '#ffffff' }"
@@ -138,7 +138,7 @@
       label="Condição de Pagamento"
       routerLink="/condpagamentos"
     ></button>
-        <!-- Menu de Forma de Pagamento Inicio -->
+    <!-- Menu de Forma de Pagamento Inicio -->
     <button
       pButton
       type="button"
@@ -150,7 +150,7 @@
       label="Forma de Pagamento"
       routerLink="/formapagamentos"
     ></button>
-            <!-- Menu de Tipo de Frete Inicio -->
+    <!-- Menu de Tipo de Frete Inicio -->
     <button
       pButton
       type="button"
@@ -164,16 +164,16 @@
     ></button>
 
     <button
-    pButton
-    type="button"
-    class="ui-button-rounded btn-menu"
-    routerLinkActive="ativo"
-    icon="fas fa-users-cog"
-    (click)="menu = false"
-    [disabled]="!auth.temPermissao('R_USU')"
-    label="Usuários"
-    routerLink="/usuarios"
-  ></button>
+      pButton
+      type="button"
+      class="ui-button-rounded btn-menu"
+      routerLinkActive="ativo"
+      icon="fas fa-users-cog"
+      (click)="menu = false"
+      [disabled]="!auth.temPermissao('R_USU')"
+      label="Usuários"
+      routerLink="/usuarios"
+    ></button>
   </p-accordion>
   <!-- Fim  -->
 

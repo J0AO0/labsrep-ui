@@ -81,6 +81,7 @@ hr {
 .btnSenha {
   color: #212529;
   width: 100%;
+  margin: 5px;
 }
 
 .btnSair {

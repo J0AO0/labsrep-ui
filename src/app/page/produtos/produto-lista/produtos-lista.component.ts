@@ -71,6 +71,8 @@ export class ProdutosListarComponent implements OnInit {
   filtro = new FiltrosProdutos()
   menu;
 
+  imagemNomes: string[] = [];
+
   constructor(
     private title: Title,
     private prodService: ProdutoService,
@@ -258,6 +260,7 @@ export class ProdutosListarComponent implements OnInit {
   }
 
 
+
   onSubmit() {
     if (this.selectedFile && this.descricao) {
       const formData = new FormData();
@@ -274,20 +277,18 @@ export class ProdutosListarComponent implements OnInit {
       }
 
       // Convertendo Observable para Promise
-      lastValueFrom(this.prodService.uploadFoto(this.produtoId, formData))  // Usar lastValueFrom
+      lastValueFrom(this.prodService.uploadFoto(this.produtoId, formData))
         .then((response) => {
-          // Exibe mensagem de sucesso no Toast
           this.messageService.add({
             severity: 'success',
             summary: 'Produto',
-            detail: `${response.descricao} Adicionado  com sucesso`
+            detail: `${response.descricao} Adicionado com sucesso`
           });
           setTimeout(() => {
-            window.location.reload();  // Recarrega a página
+            window.location.reload();
           }, 1000);
         })
         .catch((err) => {
-          // Exibe mensagem de erro em caso de falha
           this.messageService.add({
             severity: 'error',
             summary: 'Erro',
@@ -295,7 +296,6 @@ export class ProdutosListarComponent implements OnInit {
           });
         });
     } else {
-      // Exibe mensagem de alerta caso o arquivo ou descrição não tenha sido preenchido
       this.messageService.add({
         severity: 'warn',
         summary: 'Atenção',
@@ -305,8 +305,13 @@ export class ProdutosListarComponent implements OnInit {
   }
 
 
+
   onFileSelect(event: any) {
-    this.selectedFile = event.files[0];  // Seleciona o primeiro arquivo
+    const file = event.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.imagemNomes.push(file.name);  // Adiciona o nome da imagem à lista
+    }
   }
 
 

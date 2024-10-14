@@ -553,6 +553,9 @@ p-inputnumber,
 .btnEditar {
   min-width: 3.0625rem;
 }
+.col-td {
+  display: flex;
+}
 
 .btnPrevisao {
   min-width: 6.4375rem;
