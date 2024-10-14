@@ -212,7 +212,7 @@
 
       <ng-template
         pTemplate="body"
-        let-categoria
+        let-usuarios
         let-columns="columns"
         let-rowData
       >
@@ -226,7 +226,7 @@
               icon="fas fa-pen"
               pTooltip="Editar"
               tooltipPosition="top"
-              [routerLink]="['/categorias', categoria.id]"
+              [routerLink]="['/usuarios', usuarios.id]"
             ></button>
           </td>
           <td
@@ -247,7 +247,7 @@
             }}
           </td>
           <td>
-            {{ categoria.status ? "Ativo" : "Inativo" }}
+            {{ usuarios.status ? "Ativo" : "Inativo" }}
           </td>
         </tr>
       </ng-template>
