@@ -78,6 +78,10 @@ export class ProdutoService {
       obj.id = filtro.id;
     }
 
+    if (filtro.sku) {
+      obj.sku = filtro.sku;
+    }
+
     if (filtro.name) {
       obj.name = filtro.name;
     }

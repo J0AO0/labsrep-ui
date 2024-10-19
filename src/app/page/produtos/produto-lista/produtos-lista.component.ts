@@ -126,6 +126,7 @@ export class ProdutosListarComponent implements OnInit {
 
     this.cols = [
       { field: 'id', header: 'Código', width: '130px', type: 'numeric' },
+      { field: 'sku', header: 'SKU', width: '130px', type: 'text' },
       { field: 'name', header: 'Nome Produto', width: '250px', type: 'text' },
       { field: 'descricao', header: 'Descrição', width: '250px', type: 'text' },
       { field: 'preco', header: 'Preço', width: '250px', type: 'text' },

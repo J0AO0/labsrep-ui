@@ -25,6 +25,11 @@ export class FiltroProdutosService {
             filtro.id = value.qty;
         }
 
+        
+        if (value.field === 'sku') {
+            filtro.sku = value.qty;
+        }
+
         if (value.field === 'name') {
             filtro.name = value.qty;
         }

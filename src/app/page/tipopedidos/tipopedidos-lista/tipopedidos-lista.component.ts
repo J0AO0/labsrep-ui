@@ -1,24 +1,24 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { LazyLoadEvent, MenuItem, PrimeNGConfig } from 'primeng/api';
-import { CondPagamentosService } from '../condpagamentos.service';
+import { MenuItem, PrimeNGConfig } from 'primeng/api';
+
 import { AuthService } from '../../seguranca/auth.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
-  
+import { TipopedidosService } from '../tipopedidos.service';
+
 @Component({
-  selector: 'app-condpagamentos-lista',
-  templateUrl: './condpagamentos-lista.component.html',
-  styleUrls: ['./condpagamentos-lista.component.css']
+  selector: 'app-tipopedidos-lista',
+  templateUrl: './tipopedidos-lista.component.html',
+  styleUrls: ['./tipopedidos-lista.component.css']
 })
-export class CondPagamentosListaComponent implements OnInit {
+export class TipoPedidosListaComponent implements OnInit {
 
   @ViewChild('tabela') table: Table;
   rowsPerPageTable: number[] = [10, 25, 50, 100, 200, 500];
-  condicoes = [];
+  tipoPedidos = [];
   cols: any[];
   messagePageReport = 'Mostrando {first} a {last} de {totalRecords} registros';
   items: MenuItem[];
@@ -26,11 +26,9 @@ export class CondPagamentosListaComponent implements OnInit {
   valorTooltip = 'Inativos';
   globalSearchValue: string = '';
 
-
-
   constructor(
     private title: Title,
-    private condService: CondPagamentosService,
+    private tipoService: TipopedidosService,
     public auth: AuthService,
     private conf: PrimeNGConfig,
     private errorHandler: ErrorHandlerService,
@@ -39,7 +37,7 @@ export class CondPagamentosListaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.title.setTitle('Lista de Condição de Pagamento');
+    this.title.setTitle('Lista Tipo de Pedidos');
     this.items = [
       {
         label: 'Ativo/Inativo',
@@ -63,10 +61,10 @@ export class CondPagamentosListaComponent implements OnInit {
 
   carregarCondPagamento() {
     this.spinner.show();
-    this.condService.listar()
+    this.tipoService.listar()
       .then((obj) => {
-        this.condicoes = obj;
-        this.condicoes = this.validationService.formataAtivoeInativo(this.condicoes);
+        this.tipoPedidos = obj;
+        this.tipoPedidos = this.validationService.formataAtivoeInativo(this.tipoPedidos);
         this.spinner.hide();
       })
       .catch((erro) => {
@@ -85,10 +83,10 @@ export class CondPagamentosListaComponent implements OnInit {
       this.valorTooltip = 'Inativos';
       this.sinal = true;
     }
-    this.condService.AlternarLista(valor)
+    this.tipoService.AlternarLista(valor)
       .then((obj) => {
-        this.condicoes = obj;
-        this.condicoes = this.validationService.formataAtivoeInativo(this.condicoes);
+        this.tipoPedidos = obj;
+        this.tipoPedidos = this.validationService.formataAtivoeInativo(this.tipoPedidos);
         this.spinner.hide();
       })
       .catch((erro) => {

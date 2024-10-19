@@ -9,7 +9,6 @@ import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 
 import { FormaPagamentosService } from '../formapagamentos.service';
-import { FiltrosFormaPagamentos } from 'src/app/core/models/filtros.model';
 
 @Component({
   selector: 'app-formapagamentos-lista',

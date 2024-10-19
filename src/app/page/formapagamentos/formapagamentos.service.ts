@@ -6,7 +6,6 @@ import { environment } from '../../../environments/environment';
 import * as moment from 'moment-timezone';
 import { firstValueFrom } from 'rxjs';
 import { FormaPagamentos } from 'src/app/core/models/formapagamentos.model';
-import { FiltrosFormaPagamentos } from 'src/app/core/models/filtros.model';
 
 @Injectable()
 export class FormaPagamentosService {

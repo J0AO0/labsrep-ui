@@ -6,7 +6,6 @@ import { environment } from '../../../environments/environment';
 import * as moment from 'moment-timezone';
 import { firstValueFrom } from 'rxjs';
 import { TipoFretes } from 'src/app/core/models/tipofretes.model';
-import { FiltrosTipoFretes } from 'src/app/core/models/filtros.model';
 
 
 @Injectable()

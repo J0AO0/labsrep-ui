@@ -8,7 +8,11 @@ import { PaginaNaoEncontradaComponent } from './core/layout/pagina-nao-encontrad
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-{
+  {
+    path: 'dashboard' , loadChildren: () => 
+    import('./page/dashboards/dashboard.module').then(m => m.DashboardsModule)
+  },
+  {
     path: 'empresas' , loadChildren: () => 
     import('./page/empresas/empresas.module').then(m => m.EmpresaModule)
   },
@@ -27,6 +31,10 @@ const routes: Routes = [
   {
     path: 'pedidos', loadChildren: () =>
     import('./page/pedidos/pedidos.module').then(m =>  m.PedidosModule)
+  },
+  {
+    path: 'tipopedidos', loadChildren: () =>
+    import('./page/tipopedidos/tipopedidos.module').then(m =>  m.TipoPedidosModule)
   },
   {
     path: 'condpagamentos', loadChildren: () =>

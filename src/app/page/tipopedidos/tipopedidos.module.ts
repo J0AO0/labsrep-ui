@@ -3,25 +3,24 @@ import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { PrimeNGModule } from 'src/app/primeng.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { PedidosRoutingModule } from './pedidos.routing';
-//import { PedidosCadastroComponent } from './pedidos-cadastro/pedidos-cadastro.component';
-import { PedidosListaComponent } from './pedidos-lista/pedidos-lista.component';
 
+import { TipoPedidosListaComponent } from './tipopedidos-lista/tipopedidos-lista.component';
+import { TipoPedidosCadastroComponent } from './tipopedidos-cadastro/tipopedidos-cadastro.component';
+import { TipoPedidosRoutingModule } from './tipopedidos.routing';
 
 
 @NgModule({
   declarations: [
-   // PedidosCadastroComponent, 
-    PedidosListaComponent,
-    
+    TipoPedidosListaComponent,
+    TipoPedidosCadastroComponent
   ],
   imports: [
     PrimeNGModule, 
     SharedModule, 
     FormsModule, 
-    PedidosRoutingModule,
+    TipoPedidosRoutingModule,
     NgxMaskDirective,
     NgxMaskPipe,
   ],
 })
-export class PedidosModule {}
+export class TipoPedidosModule { }

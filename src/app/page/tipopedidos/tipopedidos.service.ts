@@ -5,20 +5,22 @@ import { environment } from '../../../environments/environment';
 
 import * as moment from 'moment-timezone';
 import { firstValueFrom } from 'rxjs';
-import { CondPagamentos } from 'src/app/core/models/condpagamentos.model';
+import { TipoPedidos } from 'src/app/core/models/tipopedidos.model';
 
-@Injectable()
-export class CondPagamentosService {
-  condPagamentoUrl: string;
+@Injectable({
+  providedIn: 'root'
+})
+export class TipopedidosService {
+  tipoPedidoUrl: string;
 
   constructor(private http: HttpClient) {
-    this.condPagamentoUrl = `${environment.apiUrl}/condPagamento`;
+    this.tipoPedidoUrl = `${environment.apiUrl}/tipoPedido`;
   }
 
 
 
   listar(): Promise<any> {
-    return firstValueFrom(this.http.get(`${this.condPagamentoUrl}`)).then(
+    return firstValueFrom(this.http.get(`${this.tipoPedidoUrl}`)).then(
       (response) => {
         const obj = response as any[];
         this.convertStringDate(obj);
@@ -28,26 +30,26 @@ export class CondPagamentosService {
   }
 
   excluir(id: number): Promise<void> {
-    return firstValueFrom(this.http.delete(`${this.condPagamentoUrl}/${id}`))
+    return firstValueFrom(this.http.delete(`${this.tipoPedidoUrl}/${id}`))
       .then()
       .then(() => null);
   }
 
 
-  adicionar(condPag: CondPagamentos): Promise<CondPagamentos> {
-    return firstValueFrom(this.http.post<CondPagamentos>(this.condPagamentoUrl, condPag));
+  adicionar(tipopedido: TipoPedidos): Promise<TipoPedidos> {
+    return firstValueFrom(this.http.post<TipoPedidos>(this.tipoPedidoUrl, tipopedido));
   }
 
 
-  atualizar(condPag: CondPagamentos): Promise<CondPagamentos> {
-    return firstValueFrom(this.http.put(`${this.condPagamentoUrl}/${condPag.id}`, condPag))
-      .then((response) => response as CondPagamentos);
+  atualizar(tipopedido: TipoPedidos): Promise<TipoPedidos> {
+    return firstValueFrom(this.http.put(`${this.tipoPedidoUrl}/${tipopedido.id}`, tipopedido))
+      .then((response) => response as TipoPedidos);
   }
 
 
   buscarPorId(id: number) {
-    return firstValueFrom(this.http.get(`${this.condPagamentoUrl}/${id}`))
-      .then((response) => response as CondPagamentos);
+    return firstValueFrom(this.http.get(`${this.tipoPedidoUrl}/${id}`))
+      .then((response) => response as TipoPedidos);
   }
 
 
@@ -56,13 +58,13 @@ export class CondPagamentosService {
       'Content-Type',
       'application/json'
     );
-    return firstValueFrom(this.http.put(`${this.condPagamentoUrl}/${id}/status`, status, { headers }))
+    return firstValueFrom(this.http.put(`${this.tipoPedidoUrl}/${id}/status`, status, { headers }))
       .then(() => null);
   }
 
 
   AlternarLista(valor: string): Promise<any> {
-    return firstValueFrom(this.http.get(`${this.condPagamentoUrl}${valor}`))
+    return firstValueFrom(this.http.get(`${this.tipoPedidoUrl}${valor}`))
       .then((response) => response);
   }
 
@@ -81,5 +83,5 @@ export class CondPagamentosService {
       }
     });
   }
-
 }
+

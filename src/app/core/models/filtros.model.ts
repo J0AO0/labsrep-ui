@@ -1,3 +1,7 @@
+import { Categorias } from "./categorias.model";
+import { Produtos } from "./produtos.model";
+import { TipoPedidos } from "./tipopedidos.model";
+
 export class FiltrosCategorias {
   pagina: number;
   itensPorPagina: number;
@@ -39,6 +43,7 @@ export class FiltrosProdutos {
   pagina: number;
   itensPorPagina: number;
   id: string;
+  sku: string;
   name?: string;
   descricao?: string;
   preco?: string;
@@ -49,6 +54,17 @@ export class FiltrosProdutos {
   status?: string;
 }
 
+export class FiltrosPedidos {
+  pagina: number;
+  itensPorPagina: number;
+  cliente?: string;
+  produtos: string;
+  tipoPedido: string;
+  datagravacaode: string;
+  datagravacaoate: string;
+  emailusuario: string;
+  status?: string;
+} 
 
 export class FiltroUsuarios {
   pagina: number;
@@ -62,37 +78,4 @@ export class FiltroUsuarios {
   datagravacaode: string;
   datagravacaoate: string;
   emailusuario: string;
-}
-
-export class FiltrosCondPagamentos {
-  pagina: number;
-  itensPorPagina: number;
-  id: string;
-  descricao: string;
-  datagravacaode: string;
-  datagravacaoate: string;
-  emailusuario: string;
-  status: string;
-}
-
-export class FiltrosFormaPagamentos {
-  pagina: number;
-  itensPorPagina: number;
-  id: string;
-  descricao: string;
-  datagravacaode: string;
-  datagravacaoate: string;
-  emailusuario: string;
-  status: string;
-}
-
-export class FiltrosTipoFretes {
-  pagina: number;
-  itensPorPagina: number;
-  id: string;
-  descricao: string;
-  datagravacaode: string;
-  datagravacaoate: string;
-  emailusuario: string;
-  status: string;
 }
