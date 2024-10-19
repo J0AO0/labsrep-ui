@@ -47,11 +47,11 @@ export class TipoPedidosListaComponent implements OnInit {
         }
       }
     ]
-    this.carregarCondPagamento();
+    this.carregarTipoPedido();
 
     this.cols = [
       { field: 'id', header: 'Código', width: '100px', type: 'numeric', key: 1 },
-      { field: 'descricao', header: 'Nome', width: '150px', type: 'text', key: 2 },
+      { field: 'nome', header: 'Nome', width: '150px', type: 'text', key: 2 },
       { field: 'datagravacao', header: 'Data Gravação', width: '100px', data: true, format: `dd/MM/yyyy H:mm`, type: 'date', key: 4 },
       { field: 'emailusuario', header: 'Usuário Gravação', width: '150px', type: 'text', key: 5 },
       { field: 'statusformatado', header: 'Status', width: '150px', type: 'text', key: 6 }
@@ -59,7 +59,7 @@ export class TipoPedidosListaComponent implements OnInit {
   }
 
 
-  carregarCondPagamento() {
+  carregarTipoPedido() {
     this.spinner.show();
     this.tipoService.listar()
       .then((obj) => {
@@ -96,7 +96,7 @@ export class TipoPedidosListaComponent implements OnInit {
   }
 
   refresh() {
-    this.carregarCondPagamento();
+    this.carregarTipoPedido();
   }
 
   onClear(): void {

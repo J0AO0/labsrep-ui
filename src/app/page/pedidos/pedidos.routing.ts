@@ -14,7 +14,7 @@ const routes: Routes = [
     //canActivate: [AuthGuard],
     data: {roles: ['pedidos']}
   },
-  {
+/**   {
     path: 'novo',
     //component: PedidosCadastroComponent,
     //canActivate: [AuthGuard],
@@ -25,7 +25,7 @@ const routes: Routes = [
     //component: PedidosCadastroComponent,
     //canActivate: [AuthGuard],
     data: {roles: ['pedidos']}
-  }
+  } **/
 
 
 ];

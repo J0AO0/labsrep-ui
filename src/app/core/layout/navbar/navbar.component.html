@@ -126,7 +126,7 @@
       label="Produto"
       routerLink="/produtos"
     ></button>
-    <!-- Menu de Produto Inicio -->
+    <!-- Menu de Pedido Inicio -->
     <button
       pButton
       type="button"
@@ -134,7 +134,7 @@
       routerLinkActive="ativo"
       icon="fas fa-bag-shopping"
       (click)="menu = false"
-      ngForm="!auth.temPermissao('R_PROD')"
+      ngForm="!auth.temPermissao('R_PEDI')"
       label="Pedido"
       routerLink="/pedidos"
     ></button>
@@ -182,7 +182,7 @@
         routerLinkActive="ativo"
         icon="fas fa-truck-fast"
         (click)="menu = false"
-        ngForm="!auth.temPermissao('R_FRETE')"
+        ngForm="!auth.temPermissao('R_TIPOPEDIDO')"
         label="Tipo de Pedido"
         routerLink="/tipopedidos"
       ></button>

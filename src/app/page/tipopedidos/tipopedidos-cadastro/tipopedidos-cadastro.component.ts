@@ -63,7 +63,7 @@ export class TipoPedidosCadastroComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Tipo de Pedido',
-          detail: `${obj.descricao}, adicionado com sucesso!`
+          detail: `${obj.nome}, adicionado com sucesso!`
         });
         this.salvando = false;
         this.router.navigate(['/tipopedidos']);
@@ -81,7 +81,7 @@ export class TipoPedidosCadastroComponent implements OnInit {
         this.messageService.add({
           severity: 'info',
           summary: 'Tipo de Pedido  ',
-          detail: `${obj.descricao}, atualizado com sucesso!`
+          detail: `${obj.nome}, atualizado com sucesso!`
         });
         this.atualizarTituloEdicao();
         this.salvando = false;
@@ -107,7 +107,7 @@ export class TipoPedidosCadastroComponent implements OnInit {
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de Tipo de Pedido : ${this.tipoPedido.descricao}`);
+    this.title.setTitle(`Edição de Tipo de Pedido : ${this.tipoPedido.nome}`);
   }
 
 

@@ -1,6 +1,6 @@
 export class TipoPedidos {
     id?: string;
-    descricao?:string;
+    nome?:string;
     datagravacao?: Date;
     emailusuario?: string;
     status?: boolean;

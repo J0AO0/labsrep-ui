@@ -19,9 +19,9 @@
           <span>Descrição</span>
           <input
             type="text"
-            descricao="descricao"
-            #descricao="ngModel"
-            [(ngModel)]="tipoPedido.descricao"
+            nome="nome"
+            #nome="ngModel"
+            [(ngModel)]="tipoPedido.nome"
             pInputText
             class="w-full"
             [required]="true"
@@ -33,17 +33,17 @@
           />
 
           <app-message
-            [control]="descricao"
+            [control]="nome"
             error="required"
             text="Descrição é obrigatório..."
           ></app-message>
           <app-message
-            [control]="descricao"
+            [control]="nome"
             error="minlength"
             text="Mínimo de 2 caracteres..."
           ></app-message>
           <app-message
-            [control]="descricao"
+            [control]="nome"
             error="maxlength"
             text="Máximo de 60 caracteres..."
           ></app-message>
