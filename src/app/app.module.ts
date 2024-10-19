@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SegurancaModule } from './page/seguranca/seguranca.module';
 import { PrimeNGModule } from './primeng.module';
 import { MessageService } from 'primeng/api';
+import { DashboardsModule } from './page/dashboards/dashboard.module';
 
 
 registerLocaleData(localePt, 'pt');
@@ -36,7 +37,7 @@ export const maskConfig: Partial<IConfig> = {
     CoreModule,
     SegurancaModule,
     PrimeNGModule,
-    //DashboardsModule,
+    DashboardsModule,
     AppRoutingModule,
     NgxSpinnerModule,
     SharedModule,

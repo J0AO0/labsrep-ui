@@ -22,7 +22,11 @@ const routes: Routes = [
   },
   {
     path: 'produtos', loadChildren: () =>
-    import('./page/produtos/produtos.module').then(m =>  m.ProdutoModule)
+    import('./page/produtos/produtos.module').then(m =>  m.ProdutosModule)
+  },
+  {
+    path: 'pedidos', loadChildren: () =>
+    import('./page/pedidos/pedidos.module').then(m =>  m.PedidosModule)
   },
   {
     path: 'condpagamentos', loadChildren: () =>
@@ -36,13 +40,14 @@ const routes: Routes = [
     path: 'tipofretes', loadChildren: () =>
     import('./page/tipofretes/tipofretes.module').then(m =>  m.TipoFretesModule)
   },
+  
  // { path: 'alterarsenha', component: AlterarSenhaComponent },
 
   { path: 'nao-autorizado', component: NaoAutorizadoComponent },
 
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
 
-  { path: '**', redirectTo: 'pagina-nao-encontrada' } 
+  { path: '**', redirectTo: 'dashboard  ' } 
 ];
 
 @NgModule({

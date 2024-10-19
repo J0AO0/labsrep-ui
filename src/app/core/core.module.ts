@@ -21,6 +21,7 @@ import { ProdutoService } from "../page/produtos/produtos.service";
 import { CondPagamentosService } from "../page/condpagamentos/condpagamentos.service";
 import { FormaPagamentosService } from "../page/formapagamentos/formapagamentos.service";
 import { TipoFretesService } from "../page/tipofretes/tipofretes.service";
+import { PedidosService } from "../page/pedidos/pedidos.service";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { TipoFretesService } from "../page/tipofretes/tipofretes.service";
     EmpresasService,
     CategoriasService,
     ProdutoService,
+    PedidosService,
     CondPagamentosService,
     FormaPagamentosService,
     TipoFretesService

@@ -45,7 +45,7 @@ export class ProdutoCadastroComponent implements OnInit {
 
   ngOnInit() {
     this.carregarCategoria();
-    this.title.setTitle('Cadastro Categoria');
+    this.title.setTitle('Cadastro Produto');
     this.idProduto = this.route.snapshot.params['id'];
     if (this.idProduto) {
       this.spinner.show();

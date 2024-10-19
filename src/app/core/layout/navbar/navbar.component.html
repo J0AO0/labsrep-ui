@@ -126,6 +126,18 @@
       label="Produto"
       routerLink="/produtos"
     ></button>
+    <!-- Menu de Produto Inicio -->
+    <button
+      pButton
+      type="button"
+      class="ui-button-rounded btn-menu"
+      routerLinkActive="ativo"
+      icon="fas fa-bag-shopping"
+      (click)="menu = false"
+      ngForm="!auth.temPermissao('R_PROD')"
+      label="Pedido"
+      routerLink="/pedidos"
+    ></button>
     <!-- Menu de Condição Pagamento Inicio -->
     <button
       pButton
@@ -162,6 +174,17 @@
       label="Tipo de Frete"
       routerLink="/tipofretes"
     ></button>
+    <button
+    pButton
+    type="button"
+    class="ui-button-rounded btn-menu"
+    routerLinkActive="ativo"
+    icon="fas fa-truck-fast"
+    (click)="menu = false"
+    ngForm="!auth.temPermissao('R_REL')"
+    label="Relatorio"
+    routerLink="/relatorios"
+  ></button>
 
     <button
       pButton
